@@ -1,1 +1,4 @@
-#include "d-kycha.h"
+int main ()
+{
+	return 0;
+}

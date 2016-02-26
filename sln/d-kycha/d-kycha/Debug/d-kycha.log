@@ -1,0 +1,12 @@
+﻿Build started 26.02.2016 10:41:57.
+     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\d-kycha\d-kycha\d-kycha.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Debug\d-kycha.unsuccessfulbuild".
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Users\stud2015\Desktop\laba\d-kycha\sln\d-kycha\Debug\d-kycha.lib" /NOLOGO "..\..\..\include\d-kycha.h"
+     1>..\..\..\include\d-kycha.h : fatal error LNK1107: invalid or corrupt file: cannot read at 0x1C6
+     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\d-kycha\d-kycha\d-kycha.vcxproj" (build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.15
