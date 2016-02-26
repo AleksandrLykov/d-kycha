@@ -11,13 +11,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\..\include\d-kycha.h">
-      <Filter>Header Files</Filter>
-    </Library>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\..\..\src\d-kycha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\include\dkycha.h">
+      <Filter>Header Files</Filter>
+    </Library>
   </ItemGroup>
 </Project>

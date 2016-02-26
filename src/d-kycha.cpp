@@ -1,4 +1,4 @@
-#include "d-kycha.h"
+#include "dkycha.h"
 
 DKycha::DKycha (const int arnost, const int size)
 {
@@ -20,5 +20,21 @@ DKycha::~DKycha ()
 	delete []keys;
 }
 
+int DKycha::getidx (int a)
+{
+	int p;
+	return p = (a-1)/d;
+}
+
 void DKycha::trans (const int a, const int b) 
 {
+	int tmp = keys[a];
+	keys[a] = keys[b];
+	keys[b] = tmp;
+}
+
+void DKycha::vsplyt (int a) 
+{
+	int p = getidx (a);
+	while ((p > 0) && (keys[p]
+}
