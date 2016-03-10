@@ -73,4 +73,5 @@ void DHeap<HType>::vsplyt (int a)
 	int p = getidx (a);
 }
 
+
 #endif
