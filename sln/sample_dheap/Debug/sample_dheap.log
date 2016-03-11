@@ -1,0 +1,18 @@
+﻿Build started 11.03.2016 11:08:39.
+     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\sample_dheap\sample_dheap.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\sample_dheap.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\..\include /I..\..\src /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt "..\..\samples\sample_d-heap.cpp"
+         sample_d-heap.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\stud2015\Desktop\laba\d-kycha\sln\Debug\sample_dheap.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\stud2015\Desktop\laba\d-kycha\sln\Debug\sample_dheap.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\stud2015\Desktop\laba\d-kycha\sln\Debug\sample_dheap.lib" /MACHINE:X86 "Debug\sample_d-heap.obj"
+         sample_dheap.vcxproj -> C:\Users\stud2015\Desktop\laba\d-kycha\sln\Debug\sample_dheap.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\sample_dheap.unsuccessfulbuild".
+         Touching "Debug\sample_dheap.lastbuildstate".
+     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\sample_dheap\sample_dheap.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.87
