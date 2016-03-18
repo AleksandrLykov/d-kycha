@@ -4,16 +4,21 @@ void main ()
 {
 	int c=0; 
 	DHeap<int> *a = new DHeap <int> (3,12);
-	 a->vstavka (0,5);
+	a->vstavka (0,5);
 	a->vstavka (1,8);
-	for (int i=2;i<12;i++)
-		a->vstavka(i,0);
-	DHeap<int> *b = new DHeap<int>(3,12);
-	b->vstavka (0,8);
-	b->vstavka (1,5);
-	for (int i=2;i<12;i++)
-		b->vstavka(i,0);
-	b->trans(0,1);
-	
+	a->vstavka (2,7);
+	a->vstavka (3,14);
+	a->vstavka (4,15);
+	a->vstavka (5,12);
+	a->vstavka (6,18);
+	a->vstavka (7,8);
+	a->vstavka (8,10);
+	a->vstavka (9,12);
+	a->vstavka (10,14);
+	a->vstavka (11,15);
+	a->vstavka (12,13);
+	a->vyvod();
+	a->vsplyt(12);
+	a->vyvod();
 
 }

@@ -1,4 +1,4 @@
-﻿Build started 11.03.2016 10:50:49.
+﻿Build started 18.03.2016 10:44:27.
      1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\tests\tests.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\tests.unsuccessfulbuild" because "AlwaysCreate" was specified.
@@ -17,4 +17,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.72
+Time Elapsed 00:00:01.76

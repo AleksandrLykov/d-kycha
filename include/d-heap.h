@@ -59,6 +59,8 @@ DHeap<HType>::~DHeap ()
 template <class HType>//ZAPOLNIT'
 int DHeap<HType>::min (int a, int b)
 {
+	int c = b-a;
+
 }
 
 template <class HType>
@@ -86,11 +88,16 @@ template <class HType>
 void DHeap<HType>::vsplyt (int a) 
 {
 	int p = getidx (a);
-	while ((p > 0) && (keys[p] > keys[a]))
+	while ((p >= 0) && (keys[p] > keys[a]))
 	{
+		if (p == 0)
+		{
+			trans(a,p);
+			return;
+		}
 		trans(a,p);
 		a = p;
-		getidx (p);
+		p = getidx (a);
 	}
 }
 
@@ -99,9 +106,9 @@ int DHeap<HType>::minchild (int a)
 {
 	int f,l,minc;
 	f = a*d + 1;
-	if (f > n-1)
+	if (f > kolvo)
 		return (-1);
-	l = min (a*d+d,n-1);
+	l = min (a*d+1,kolvo);
 	minc = f;
 	for (int k=f; k<=l;k++)
 		if (keys[k] < keys[minc])
@@ -151,9 +158,7 @@ void DHeap<HType>::okych ()//ZAPOLNIT'
 template <class HType>
 int DHeap<HType>::operator==(const DHeap<HType>& a)const
 {
-	if ((kolvo != a.kolvo) && (d != a.d))
-		return 0;
-	for (int i=0;i<kolvo;i++)
+	for (int i=0;i<a.kolvo+1;i++)
 	{
 		if (keys[i] != a.keys[i])
 			return 0;
@@ -164,9 +169,10 @@ int DHeap<HType>::operator==(const DHeap<HType>& a)const
 template <class HType>
 void DHeap<HType>::vyvod()
 {
-	for (int i=0;i<kolvo;i++)
+	for (int i=0;i<kolvo+1;i++)
 	{
 		cout << keys[i] << " ";
 	}
+	cout << endl;
 }
 #endif
