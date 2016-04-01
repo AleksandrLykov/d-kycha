@@ -37,7 +37,7 @@ DHeap<HType>::DHeap (const int arnost, const int size)
 {
 	d = arnost; 
 	kolvo = size;
-	keys = new HType[kolvo];
+	keys = new HType[kolvo-1];
 }
 
 template <class HType>
@@ -56,11 +56,16 @@ DHeap<HType>::~DHeap ()
 	delete []keys;
 }
 
-template <class HType>//ZAPOLNIT'
+template <class HType>
 int DHeap<HType>::min (int a, int b)
 {
-	int c = b-a;
-
+	int m = keys[a];
+	for (int i=a; i<=b; i++)
+	{
+		if (keys[a] >=keys[i])
+			m = keys[i];
+	}
+	return m;
 }
 
 template <class HType>
@@ -108,7 +113,7 @@ int DHeap<HType>::minchild (int a)
 	f = a*d + 1;
 	if (f > kolvo)
 		return (-1);
-	l = min (a*d+1,kolvo);
+	l = min (a*d+1,f + d-1);
 	minc = f;
 	for (int k=f; k<=l;k++)
 		if (keys[k] < keys[minc])
@@ -131,14 +136,27 @@ void DHeap<HType>::pogryzh (int a)
 template <class HType>
 void DHeap<HType>::delet ()
 {
-	int minkey = keys[0];
 	keys[0] = keys[kolvo - 1];
 	kolvo --;
+	pogryzh(0);
 }
 
 template <class HType>
-void DHeap<HType>::deletzadan (int a)//ZAPOLNIT'
+void DHeap<HType>::deletzadan (int a)
 {
+	if (a == 0)
+	{
+		delet();
+		return;
+	}
+
+	if (a >= kolvo-1)
+	throw
+	exception ("введите корректный индекс");
+	
+	keys[a] = keys[kolvo-1];
+	kolvo --;
+	pogryzh(a);
 }
 
 template <class HType>
