@@ -11,21 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\tree.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\d-heap.vcxproj">
-      <Project>{37f5b48f-08d1-44e2-9f45-9a646c375dad}</Project>
-      <Private>false</Private>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
-      <LinkLibraryDependencies>true</LinkLibraryDependencies>
-      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
-    </ProjectReference>
+    <ClInclude Include="..\..\include\queue.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3A2DAB7B-0350-4CB4-9938-D9E156795A7D}</ProjectGuid>
+    <ProjectGuid>{635E7C36-7C5D-4EA2-82D2-60B125A786C7}</ProjectGuid>
     <RootNamespace>tree</RootNamespace>
+    <ProjectName>queue</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -56,7 +47,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -68,6 +60,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

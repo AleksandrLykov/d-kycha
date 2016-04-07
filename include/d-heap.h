@@ -15,10 +15,9 @@ private:
 	int kolvo;//количество
 public:
 	DHeap (const int, const int);
-	DHeap (const DHeap&);
+	DHeap (const DHeap<HType>&);
 	~DHeap ();
 	int getidx (int a);
-	int min (int a, int b);
 	void trans (const int a, const int b);
 	void vstavka (const int idx, const HType a);
 	void vsplyt (int a);
@@ -28,16 +27,20 @@ public:
 	void deletzadan (int a);
 	void push (HType a);
 	void okych ();
-	void vyvod ();
+	int vyvod (int idx);
 	int operator == (const DHeap<HType>& a)const;
+	DHeap& operator=(const DHeap<HType>& a);
 };
 
 template <class HType>
 DHeap<HType>::DHeap (const int arnost, const int size)
 {
+	if ((arnost <= 0) || (size < 0))
+	throw
+	exception ("введите корректные данные");
 	d = arnost; 
 	kolvo = size;
-	keys = new HType[kolvo-1];
+	keys = new HType[kolvo];
 }
 
 template <class HType>
@@ -46,7 +49,7 @@ DHeap<HType>::DHeap (const DHeap &a)
 	keys = new HType [a.kolvo];
 	d = a.d;
 	kolvo = a.kolvo;
-	for (int i=0;i<kolvo;i++)
+	for (int i=0;i<kolvo-1;i++)
 		keys[i] = a.keys[i];
 }
 
@@ -54,18 +57,6 @@ template <class HType>
 DHeap<HType>::~DHeap ()
 {
 	delete []keys;
-}
-
-template <class HType>
-int DHeap<HType>::min (int a, int b)
-{
-	int m = keys[a];
-	for (int i=a; i<=b; i++)
-	{
-		if (keys[a] >=keys[i])
-			m = keys[i];
-	}
-	return m;
 }
 
 template <class HType>
@@ -78,6 +69,10 @@ int DHeap<HType>::getidx (int a)
 template <class HType>
 void DHeap<HType>::trans (const int a, const int b) 
 {
+	if ((a > kolvo-1) || (b > kolvo-1))
+	throw
+	exception ("введите корректный индекс");
+
 	HType tmp = keys[a];
 	keys[a] = keys[b];
 	keys[b] = tmp;
@@ -86,12 +81,18 @@ void DHeap<HType>::trans (const int a, const int b)
 template <class HType>
 void DHeap<HType>::vstavka (const int idx, const HType a)
 {
+	if (idx > kolvo - 1)
+		throw;
 	keys[idx] = a;
 }
 
 template <class HType>
 void DHeap<HType>::vsplyt (int a) 
 {
+	if (a > kolvo-1)
+	throw
+	exception ("введите корректный индекс");
+
 	int p = getidx (a);
 	while ((p >= 0) && (keys[p] > keys[a]))
 	{
@@ -109,14 +110,16 @@ void DHeap<HType>::vsplyt (int a)
 template <class HType>
 int DHeap<HType>::minchild (int a) 
 {
-	int f,l,minc;
-	f = a*d + 1;
-	if (f > kolvo)
+	int l;
+	if (a*d + 1>= kolvo)
 		return (-1);
-	l = min (a*d+1,f + d-1);
-	minc = f;
-	for (int k=f; k<=l;k++)
-		if (keys[k] < keys[minc])
+	int f = a*d + 1;
+	int minc = f;
+	if (a*d+d > kolvo-1)
+		l = kolvo-1;
+	else l = a*d+d;
+	for (int k=f;k<=l;k++)
+		if (keys[k]<keys[minc])
 			minc = k;
 	return minc;
 }
@@ -124,6 +127,10 @@ int DHeap<HType>::minchild (int a)
 template <class HType>
 void DHeap<HType>::pogryzh (int a)
 {
+	if (a > kolvo-1)
+	throw
+	exception ("введите корректный индекс");
+
 	int c = minchild(a);
 	while ((c!=-1) && (keys[c] < keys[a]))
 	{
@@ -150,7 +157,7 @@ void DHeap<HType>::deletzadan (int a)
 		return;
 	}
 
-	if (a >= kolvo-1)
+	if (a > kolvo-1)
 	throw
 	exception ("введите корректный индекс");
 	
@@ -162,21 +169,31 @@ void DHeap<HType>::deletzadan (int a)
 template <class HType>
 void DHeap<HType>::push (HType a)
 {
-	keys = (HType*) realloc (keys, kolvo + 1);
 	kolvo ++;
-	keys[kolvo] = a;
-	vsplyt(kolvo);
+	HType *tmp = new HType[kolvo];
+	for (int i=0;i<kolvo-1;i++)
+		tmp[i] = keys[i];
+	tmp[kolvo - 1] = a;
+	keys = tmp;
+	vsplyt(kolvo-1);
 }
 
 template <class HType>
-void DHeap<HType>::okych ()//ZAPOLNIT'
+void DHeap<HType>::okych ()
 {
+	if (kolvo == 0)
+		throw
+		exception ("D-куча пуста");
+	for (int i=kolvo-1; i>=0;i--)
+		pogryzh(i);
 }
 
 template <class HType>
 int DHeap<HType>::operator==(const DHeap<HType>& a)const
 {
-	for (int i=0;i<a.kolvo+1;i++)
+	if (a.kolvo != kolvo)
+		return 0;
+	for (int i=0;i<a.kolvo;i++)
 	{
 		if (keys[i] != a.keys[i])
 			return 0;
@@ -185,12 +202,19 @@ int DHeap<HType>::operator==(const DHeap<HType>& a)const
 }
 
 template <class HType>
-void DHeap<HType>::vyvod()
+int DHeap<HType>::vyvod(int idx)
 {
-	for (int i=0;i<kolvo+1;i++)
-	{
-		cout << keys[i] << " ";
-	}
-	cout << endl;
+	return keys[idx];
 }
+
+template <class HType>
+DHeap<HType>& DHeap<HType>::operator=(const DHeap<HType>& a)
+{
+	d = a.d;
+	kolvo = a.kolvo;
+	for (int i=0;i<kolvo;i++)
+		keys[i] = a.keys[i];
+	return *this;
+}
+
 #endif
