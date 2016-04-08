@@ -1,12 +1,12 @@
-﻿Построение начато 07.04.2016 13:53:27.
-     1>Проект "C:\Users\Александр\Desktop\laba\d-kycha\sln\d-heap.vcxproj" в узле 2 (целевые объекты Build).
+﻿Build started 08.04.2016 11:54:43.
+     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\d-heap.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
-         Создание "Debug\d-heap.unsuccessfulbuild", так как было задано "AlwaysCreate".
+         Creating "Debug\d-heap.unsuccessfulbuild" because "AlwaysCreate" was specified.
        FinalizeBuildStatus:
-         Файл "Debug\d-heap.unsuccessfulbuild" удаляется.
-         Обращение к "Debug\d-heap.lastbuildstate".
-     1>Построение проекта "C:\Users\Александр\Desktop\laba\d-kycha\sln\d-heap.vcxproj" завершено (целевые объекты Build).
+         Deleting file "Debug\d-heap.unsuccessfulbuild".
+         Touching "Debug\d-heap.lastbuildstate".
+     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\d-heap.vcxproj" (Build target(s)).
 
-Построение успешно завершено.
+Build succeeded.
 
-Затраченное время: 00:00:00.02
+Time Elapsed 00:00:00.03

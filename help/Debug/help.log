@@ -1,18 +1,33 @@
-﻿Построение начато 07.04.2016 13:31:56.
-     1>Проект "C:\Users\Александр\Desktop\laba\d-kycha\help\help.vcxproj" в узле 2 (целевые объекты Build).
+﻿Build started 08.04.2016 11:54:47.
+     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\help\help.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
-         Создание "Debug\help.unsuccessfulbuild", так как было задано "AlwaysCreate".
+         Touching "Debug\help.unsuccessfulbuild".
        ClCompile:
-         Для всех выходных данных обновления не требуется.
-       Link:
-         Для всех выходных данных обновления не требуется.
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Александр\Desktop\laba\d-kycha\sln\Debug\help.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Александр\Desktop\laba\d-kycha\sln\Debug\help.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Александр\Desktop\laba\d-kycha\sln\Debug\help.lib" /MACHINE:X86 Debug\s.obj
-         help.vcxproj -> C:\Users\Александр\Desktop\laba\d-kycha\sln\Debug\help.exe
-       FinalizeBuildStatus:
-         Файл "Debug\help.unsuccessfulbuild" удаляется.
-         Обращение к "Debug\help.lastbuildstate".
-     1>Построение проекта "C:\Users\Александр\Desktop\laba\d-kycha\help\help.vcxproj" завершено (целевые объекты Build).
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt s.cpp
+         s.cpp
+     1>c:\users\stud2015\desktop\laba\d-kycha\include\queue.h(53): error C2440: '=' : cannot convert from 'const DHeap<HType>' to 'DHeap<HType> *'
+                 with
+                 [
+                     HType=int
+                 ]
+                 No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
+                 c:\users\stud2015\desktop\laba\d-kycha\include\queue.h(50) : while compiling class template member function 'void HQueue<HType>::push(const DHeap<HType> &,int)'
+                 with
+                 [
+                     HType=int
+                 ]
+                 c:\users\stud2015\desktop\laba\d-kycha\help\s.cpp(7) : see reference to function template instantiation 'void HQueue<HType>::push(const DHeap<HType> &,int)' being compiled
+                 with
+                 [
+                     HType=int
+                 ]
+                 c:\users\stud2015\desktop\laba\d-kycha\help\s.cpp(5) : see reference to class template instantiation 'HQueue<HType>' being compiled
+                 with
+                 [
+                     HType=int
+                 ]
+     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\help\help.vcxproj" (Build target(s)) -- FAILED.
 
-Построение успешно завершено.
+Build FAILED.
 
-Затраченное время: 00:00:00.37
+Time Elapsed 00:00:00.56

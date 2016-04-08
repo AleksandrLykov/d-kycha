@@ -205,7 +205,7 @@ Class Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6.GlobalModule: 
   Fields:
     Int32 DefaultIntegerValue = -1 : Assembly, Static, Literal, HasDefault
     Int16 DefaultShortValue = -1 : Assembly, Static, Literal, HasDefault
-    Single DefaultSingleValue = не число : Assembly, Static, Literal, HasDefault
+    Single DefaultSingleValue = NaN : Assembly, Static, Literal, HasDefault
   Properties:
     Microsoft.VisualBasic.PowerPacks.Printing.Compatibility.VB6.PrinterCollection Printers 'get ' : 
     System.Resources.ResourceManager SR 'get ' : 

@@ -1,18 +1,17 @@
-﻿Построение начато 04.04.2016 16:57:07.
-     1>Проект "C:\Users\Александр\Desktop\laba\d-kycha\sln\gtest\gtest.vcxproj" в узле 3 (целевые объекты Build).
+﻿Build started 08.04.2016 10:47:44.
+     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\gtest\gtest.vcxproj" on node 2 (Build target(s)).
      1>InitializeBuildStatus:
-         Создание "Debug\gtest.unsuccessfulbuild", так как было задано "AlwaysCreate".
+         Creating "Debug\gtest.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D GTEST_EXPORTS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt "..\..\gtest\gtest-all.cc"
-         gtest-all.cc
+         All outputs are up-to-date.
        Lib:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\Lib.exe /OUT:"C:\Users\Александр\Desktop\laba\d-kycha\sln\Debug\gtest.lib" /NOLOGO "Debug\gtest-all.obj"
-         gtest.vcxproj -> C:\Users\Александр\Desktop\laba\d-kycha\sln\Debug\gtest.lib
+         All outputs are up-to-date.
+         gtest.vcxproj -> C:\Users\stud2015\Desktop\laba\d-kycha\sln\Debug\gtest.lib
        FinalizeBuildStatus:
-         Файл "Debug\gtest.unsuccessfulbuild" удаляется.
-         Обращение к "Debug\gtest.lastbuildstate".
-     1>Построение проекта "C:\Users\Александр\Desktop\laba\d-kycha\sln\gtest\gtest.vcxproj" завершено (целевые объекты Build).
+         Deleting file "Debug\gtest.unsuccessfulbuild".
+         Touching "Debug\gtest.lastbuildstate".
+     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\gtest\gtest.vcxproj" (Build target(s)).
 
-Построение успешно завершено.
+Build succeeded.
 
-Затраченное время: 00:00:03.56
+Time Elapsed 00:00:00.03
