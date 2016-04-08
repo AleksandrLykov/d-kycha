@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -17,6 +18,7 @@ public:
 	DHeap (const int, const int);
 	DHeap (const DHeap<HType>&);
 	~DHeap ();
+
 	int getidx (int a);
 	void trans (const int a, const int b);
 	void vstavka (const int idx, const HType a);
@@ -27,9 +29,11 @@ public:
 	void deletzadan (int a);
 	void push (HType a);
 	void okych ();
-	int vyvod (int idx);
+	void vyvod ();
 	int operator == (const DHeap<HType>& a)const;
 	DHeap& operator=(const DHeap<HType>& a);
+	int getKolvo();
+	HType getKey(int);
 };
 
 template <class HType>
@@ -49,6 +53,7 @@ DHeap<HType>::DHeap (const DHeap &a)
 	keys = new HType [a.kolvo];
 	d = a.d;
 	kolvo = a.kolvo;
+	prior = a.prior;
 	for (int i=0;i<kolvo-1;i++)
 		keys[i] = a.keys[i];
 }
@@ -202,9 +207,25 @@ int DHeap<HType>::operator==(const DHeap<HType>& a)const
 }
 
 template <class HType>
-int DHeap<HType>::vyvod(int idx)
+void DHeap<HType>::vyvod()
 {
-	return keys[idx];
+	int level=0, tmp = 0;
+	while (tmp < kolvo)
+	{
+		tmp += pow (d,level);
+		level++;
+	}
+	int k=1, z=0;
+	cout << " " << keys[0] << endl;
+	for (int i = 1; i < level;i++)
+	{
+		for (int j = k; (j<k+pow(d,i)) && (j < kolvo); j++)
+			cout << keys[j] << "  ";
+		cout << endl;
+		if (k + pow(d,i) > kolvo)
+				k = kolvo;
+			else k += pow(d,i);
+	}
 }
 
 template <class HType>
@@ -215,6 +236,18 @@ DHeap<HType>& DHeap<HType>::operator=(const DHeap<HType>& a)
 	for (int i=0;i<kolvo;i++)
 		keys[i] = a.keys[i];
 	return *this;
+}
+
+template <class HType>
+int DHeap<HType>::getKolvo ()
+{
+	return kolvo;
+}
+
+template <class HType>
+HType DHeap<HType>::getKey (int a)
+{
+	return keys[a];
 }
 
 #endif

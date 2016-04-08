@@ -1,18 +1,22 @@
-﻿Build started 08.04.2016 11:54:43.
-     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\tests\tests.vcxproj" on node 2 (Build target(s)).
+﻿Построение начато 08.04.2016 13:04:44.
+     1>Проект "C:\Users\Александр\Desktop\laba\d-kycha\sln\tests\tests.vcxproj" в узле 2 (целевые объекты Build).
      1>InitializeBuildStatus:
-         Creating "Debug\tests.unsuccessfulbuild" because "AlwaysCreate" was specified.
+         Обращение к "Debug\tests.unsuccessfulbuild".
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\..\gtest /I..\..\include /I..\..\src /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _VARIADIC_MAX=10 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\test\tests.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\..\gtest /I..\..\include /I..\..\src /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _VARIADIC_MAX=10 /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\test\tests.cpp
          tests.cpp
-     1>c:\users\stud2015\desktop\laba\d-kycha\include\queue.h(66): error C2244: 'HQueue<HType>::push' : unable to match function definition to an existing declaration
-                 c:\users\stud2015\desktop\laba\d-kycha\include\queue.h(22) : see declaration of 'HQueue<HType>::push'
-                 definition
-                 'void HQueue<HType>::push(const DHeap<HType> &,int)'
-                 existing declarations
-                 'void HQueue<HType>::push(const DHeap<HType> *&,int)'
-     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\tests\tests.vcxproj" (Build target(s)) -- FAILED.
+     1>c:\users\александр\desktop\laba\d-kycha\test\tests.cpp(434): error C2661: HQueue<HType>::HQueue: нет перегруженной функции, принимающей 3 аргументов
+                 with
+                 [
+                     HType=int
+                 ]
+     1>c:\users\александр\desktop\laba\d-kycha\test\tests.cpp(439): error C2661: HQueue<HType>::HQueue: нет перегруженной функции, принимающей 3 аргументов
+                 with
+                 [
+                     HType=int
+                 ]
+     1>Построение проекта "C:\Users\Александр\Desktop\laba\d-kycha\sln\tests\tests.vcxproj" завершено (целевые объекты Build) с ошибкой.
 
-Build FAILED.
+Сбой построения.
 
-Time Elapsed 00:00:01.07
+Затраченное время: 00:00:01.57

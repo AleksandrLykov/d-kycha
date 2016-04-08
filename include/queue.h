@@ -1,67 +1,77 @@
+#ifndef __QUEUE_H__
+#define __QUEUE_H__
+
 #include <d-heap.h>
 
-
-template <class HType>
-struct TypeQueue
-{
-	DHeap<HType> *arr; //бин куча
-	int prior; //приоритет
-};
 
 template <class HType>
 class HQueue
 {
 private:
-	TypeQueue<HType>* ar; // очередь
-	int MaxSize; // максимальный размер
-	int kolvo; //количество эл-тов в очереди
+	DHeap<HType> *heap; // очередь
 public:
-	HQueue(int, int, int);
+	HQueue(int);
 	~HQueue();
-
-	void push(const DHeap<HType>&, int);
+	HQueue(const HQueue<HType>&);
+	
+	void push(const HType);
 	void pop();
 	int isEmpty();
-	int isFull();
-	DHeap<HType>* top();
+	HType top();
 };
 
 template <class HType>
-HQueue<HType>::HQueue (int max, int arnost, int kolvo)
+HQueue<HType>::HQueue (int d)
 {	
-	if ((arnost <= 0) || (kolvo< 0) || (max < 0))
-	throw
-	exception ("введите корректные данные");
-	MaxSize = max;
-	this->kolvo = 0;
-	ar = new TypeQueue<HType> [MaxSize];
-	ar->prior = 0;
-	ar->arr = new DHeap<HType> (arnost, kolvo);
+	if (d < 0)
+		throw
+		exception ("введите корректные данные");
+	heap = new DHeap<HType>* (d,0);
 }
 
 template <class HType>
 HQueue<HType>::~HQueue ()
 {
-	delete [ar];
+	delete heap;
+}
+
+template <class HType>
+HQueue<HType>::HQueue (const HQueue<HType>& a)
+{
+	heap = new DHeap<HType>* (1,0);
+	heap = a.heap;
 }
 
  template <class HType>
- void HQueue<HType>::push(const DHeap<HType> &a, int b)
+int HQueue<HType>::isEmpty()
 {
-	 if (isFull())
-		 throw exception ("Очередь переполнена");
-	ar[kolvo].arr = a;
-	ar[kolvo].prior = b;
-
-	int i = kolvo;
-	TypeQueue<HType> tmp;
-	while ((i > 0) && (ar[kolvo].prior < ar[i].prior))
-	{
-		tmp = ar[kolvo];
-		ar[kolvo] = ar[i];
-		ar[i] = tmp;
-		i--;
-	}
-	kolvo++;	
+	if (heap->getKolvo == 0)
+		return 1;
+	else return 0;
 }
 
+template <class HType>
+void HQueue<HType>::pop()
+{
+	if (isEmpty())
+		throw
+		exception ("очередь пуста");
+	heap->delet();
+}
+
+template <class HType>
+void HQueue<HType>::push(const HType a)
+{
+	heap->push(a);
+}
+
+template <class HType>
+HType HQueue<HType>::top ()
+{
+	if (isEmpty())
+		throw
+		exception ("очередь пуста");
+	return heap->getKey(0);
+}
+
+#endif

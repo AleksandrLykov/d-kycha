@@ -429,13 +429,4 @@ TEST(dheap, proverka_operatora_ravno)
 	EXPECT_EQ(c,1);
 }
 
-TEST(queue, can_create_queue)
-{
-	ASSERT_NO_THROW(HQueue<int> *a = new HQueue <int> (32,2,1));
-}
-
-TEST(queue, throw_if_necorrect_dannye)
-{
-	ASSERT_ANY_THROW(HQueue<int> *a = new HQueue <int> (-1,2,1));
-}
 
