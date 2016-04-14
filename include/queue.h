@@ -13,11 +13,14 @@ public:
 	HQueue(int);
 	~HQueue();
 	HQueue(const HQueue<HType>&);
-	
+	HQueue(Data<HType>**, int, int);
+
 	void push(const HType);
 	void pop();
 	int isEmpty();
 	HType top();
+	void vyvod();
+	int operator ==(const HQueue<HType>&)const;
 };
 
 template <class HType>
@@ -26,7 +29,7 @@ HQueue<HType>::HQueue (int d)
 	if (d < 0)
 		throw
 		exception ("введите корректные данные");
-	heap = new DHeap<HType>* (d,0);
+	heap = new DHeap<HType> (d, 0);
 }
 
 template <class HType>
@@ -38,14 +41,13 @@ HQueue<HType>::~HQueue ()
 template <class HType>
 HQueue<HType>::HQueue (const HQueue<HType>& a)
 {
-	heap = new DHeap<HType>* (1,0);
-	heap = a.heap;
+	this->heap = new DHeap<HType>(*(a.heap));
 }
 
  template <class HType>
 int HQueue<HType>::isEmpty()
 {
-	if (heap->getKolvo == 0)
+	if (heap->getKolvo() == 0)
 		return 1;
 	else return 0;
 }
@@ -72,6 +74,25 @@ HType HQueue<HType>::top ()
 		throw
 		exception ("очередь пуста");
 	return heap->getKey(0);
+}
+
+template <class HType>
+void HQueue<HType>::vyvod ()
+{
+	heap->vyvod();
+}
+
+template <class HType>
+int HQueue<HType>::operator== (const HQueue<HType>& a)const
+{
+	 return *heap == *a.heap;
+}
+
+template <class HType>
+HQueue<HType>::HQueue (Data<HType> **a, int n, int d)
+{
+	heap = new DHeap<HType> (d, n);
+	heap->add(a, n);
 }
 
 #endif

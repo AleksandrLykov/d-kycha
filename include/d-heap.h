@@ -5,56 +5,69 @@
 #include <iostream>
 #include <cmath>
 
+#define MAX_HTYPE 1000
+
 using namespace std;
+
+template <class HType>
+class Data
+{
+public:
+	HType pr;
+};
+
 
 template <class HType>
 class DHeap
 {
 private:
 	int d; //арность
-	HType *keys;// Массив
+	Data<HType>** keys;// массив
 	int kolvo;//количество
 public:
 	DHeap (const int, const int);
 	DHeap (const DHeap<HType>&);
 	~DHeap ();
 
-	int getidx (int a);
-	void trans (const int a, const int b);
-	void vstavka (const int idx, const HType a);
-	void vsplyt (int a);
-	void pogryzh (int a);
-	int minchild (int a);
-	void delet ();
-	void deletzadan (int a);
-	void push (HType a);
-	void okych ();
-	void vyvod ();
-	int operator == (const DHeap<HType>& a)const;
-	DHeap& operator=(const DHeap<HType>& a);
-	int getKolvo();
-	HType getKey(int);
+	int getidx (int); //Индекс родителя
+	void trans (const int, const int); //Транспонирование двух элементов
+	void vsplyt (int); // Всплытие
+	void pogryzh (int); // погружение
+	int minchild (int); // минимальное дите
+	void delet (); //удаление минимального элемента
+	void deletzadan (int); //удаление заданного элемента
+	void push (HType); // вставка объекта
+	void okych (); // окучивание
+	void vyvod (); // вывод кучи
+
+	int operator == (const DHeap<HType>&)const;
+	DHeap& operator=(const DHeap<HType>&);
+	int getKolvo(); //возвращает количество элементов
+	HType getKey(int); // возвращает ключ
+
+	void Sort(); //Пирамидальная сортировка
+
+	void add (Data<HType>**, int); // вставка графа
 };
 
 template <class HType>
 DHeap<HType>::DHeap (const int arnost, const int size)
 {
-	if ((arnost <= 0) || (size < 0))
+	if ((arnost <= 0) || (size < 0) || (size > MAX_HTYPE))
 	throw
 	exception ("введите корректные данные");
 	d = arnost; 
 	kolvo = size;
-	keys = new HType[kolvo];
+	keys = new Data<HType>*[MAX_HTYPE];
 }
 
 template <class HType>
 DHeap<HType>::DHeap (const DHeap &a)
-{
-	keys = new HType [a.kolvo];
+{	
 	d = a.d;
 	kolvo = a.kolvo;
-	prior = a.prior;
-	for (int i=0;i<kolvo-1;i++)
+	keys = new Data<HType>*[MAX_HTYPE];
+	for (int i=0;i<=kolvo-1;i++)
 		keys[i] = a.keys[i];
 }
 
@@ -78,17 +91,10 @@ void DHeap<HType>::trans (const int a, const int b)
 	throw
 	exception ("введите корректный индекс");
 
-	HType tmp = keys[a];
-	keys[a] = keys[b];
-	keys[b] = tmp;
-}
-
-template <class HType>
-void DHeap<HType>::vstavka (const int idx, const HType a)
-{
-	if (idx > kolvo - 1)
-		throw;
-	keys[idx] = a;
+	Data<HType> *tmp = new Data<HType>;
+	tmp->pr = keys[a]->pr;
+	keys[a]->pr = keys[b]->pr;
+	keys[b]->pr = tmp->pr;
 }
 
 template <class HType>
@@ -99,7 +105,7 @@ void DHeap<HType>::vsplyt (int a)
 	exception ("введите корректный индекс");
 
 	int p = getidx (a);
-	while ((p >= 0) && (keys[p] > keys[a]))
+	while ((p >= 0) && (keys[p]->pr > keys[a]->pr))
 	{
 		if (p == 0)
 		{
@@ -115,29 +121,32 @@ void DHeap<HType>::vsplyt (int a)
 template <class HType>
 int DHeap<HType>::minchild (int a) 
 {
-	int l;
-	if (a*d + 1>= kolvo)
-		return (-1);
-	int f = a*d + 1;
-	int minc = f;
-	if (a*d+d > kolvo-1)
-		l = kolvo-1;
-	else l = a*d+d;
-	for (int k=f;k<=l;k++)
-		if (keys[k]<keys[minc])
-			minc = k;
-	return minc;
+	if (a*d+1> kolvo-1) 
+		return -1;
+
+    int minCh = a*d+1;
+    int maxCh;
+	if (a*d+d < kolvo - 1)
+		maxCh = a*d + d;
+	else maxCh = kolvo - 1;
+
+    for (int i = minCh; i <= maxCh; i++) {
+        if (keys[i]->pr < keys[minCh]->pr) {
+            minCh = i;
+        }
+    }
+    return minCh;
 }
 
 template <class HType>
 void DHeap<HType>::pogryzh (int a)
 {
-	if (a > kolvo-1)
+	if (a > kolvo)
 	throw
 	exception ("введите корректный индекс");
 
 	int c = minchild(a);
-	while ((c!=-1) && (keys[c] < keys[a]))
+	while ((c!=-1) && (keys[c]->pr < keys[a]->pr))
 	{
 		trans (c,a);
 		a = c;
@@ -156,31 +165,33 @@ void DHeap<HType>::delet ()
 template <class HType>
 void DHeap<HType>::deletzadan (int a)
 {
-	if (a == 0)
-	{
-		delet();
-		return;
-	}
+	if (a >= kolvo)
+		throw
+		exception ("индекс неверен");
+	trans(a, kolvo - 1);
 
-	if (a > kolvo-1)
-	throw
-	exception ("введите корректный индекс");
-	
-	keys[a] = keys[kolvo-1];
-	kolvo --;
-	pogryzh(a);
+	kolvo--;
+	if (keys[a]->pr < keys[getidx(a)]->pr)
+		vsplyt(a);
+	else pogryzh(a);
 }
 
 template <class HType>
 void DHeap<HType>::push (HType a)
 {
+	Data<HType>* tmp2 = new Data<HType>;
+	tmp2->pr = a;
+
 	kolvo ++;
-	HType *tmp = new HType[kolvo];
+	if (kolvo > MAX_HTYPE)
+		throw
+		exception ("Перебор");
+
+	Data<HType>** tmp = new Data<HType>*[MAX_HTYPE];
 	for (int i=0;i<kolvo-1;i++)
 		tmp[i] = keys[i];
-	tmp[kolvo - 1] = a;
+	tmp[kolvo - 1] = tmp2;
 	keys = tmp;
-	vsplyt(kolvo-1);
 }
 
 template <class HType>
@@ -200,7 +211,7 @@ int DHeap<HType>::operator==(const DHeap<HType>& a)const
 		return 0;
 	for (int i=0;i<a.kolvo;i++)
 	{
-		if (keys[i] != a.keys[i])
+		if (keys[i]->pr != a.keys[i]->pr)
 			return 0;
 	}
 	return 1;
@@ -216,16 +227,17 @@ void DHeap<HType>::vyvod()
 		level++;
 	}
 	int k=1, z=0;
-	cout << " " << keys[0] << endl;
+	cout << "\t" << keys[0]->pr << endl;
 	for (int i = 1; i < level;i++)
 	{
 		for (int j = k; (j<k+pow(d,i)) && (j < kolvo); j++)
-			cout << keys[j] << "  ";
+			cout << keys[j]->pr << "\t";
 		cout << endl;
 		if (k + pow(d,i) > kolvo)
 				k = kolvo;
 			else k += pow(d,i);
 	}
+
 }
 
 template <class HType>
@@ -247,7 +259,36 @@ int DHeap<HType>::getKolvo ()
 template <class HType>
 HType DHeap<HType>::getKey (int a)
 {
-	return keys[a];
+	return keys[a]->pr;
+}
+
+template <class HType>
+void DHeap<HType>::Sort () 
+{
+	int tmp = kolvo;
+	for (int i= kolvo-1; i >0; i--)
+		deletzadan(0);
+	kolvo = tmp;
+
+	tmp = 0;
+	int tmp2 = kolvo-1;
+	while (tmp <= tmp2)
+	{
+		trans(tmp2,tmp);
+		tmp++;
+		tmp2--;
+	}	
+}
+
+template <class HType>
+void DHeap<HType>::add (Data<HType> **a, int n)
+{
+	if (kolvo + n >= MAX_HTYPE)
+		throw
+		exception ("Перебор");
+	for (int i = kolvo+1; i <kolvo+n+1; i++)
+		keys[i] = a[i-kolvo-1];
+	kolvo += n;
 }
 
 #endif

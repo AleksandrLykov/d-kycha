@@ -28,16 +28,13 @@ TEST(dheap, proverka_getidx)
 TEST(dheap, proverka_transa)
 {
 	int c;
-	DHeap<int> *a = new DHeap<int>(3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	for (int i=2;i<13;i++)
-		a->vstavka(i,0);
-	DHeap<int> *b = new DHeap<int>(3,13);
-	b->vstavka (0,8);
-	b->vstavka (1,5);
-	for (int i=2;i<13;i++)
-		b->vstavka(i,0);
+	DHeap<int> *a = new DHeap<int>(3,0);
+	a->push(5);
+	a->push(8);
+	DHeap<int> *b = new DHeap<int>(3,0);
+	b->push (8);
+	b->push (5);
+
 	b->trans(0,1);
 	c = a->operator==(*b);
 	EXPECT_EQ(c,1);
@@ -51,46 +48,45 @@ TEST(dheap, throw_if_trans_uncorrect)
 
 TEST(dheap, provarka_vsplytiya)
 {
-	DHeap<int> *a = new DHeap<int>(3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	for (int i=2;i<13;i++)
-		a->vstavka(i,0);
+	DHeap<int> *a = new DHeap<int>(3,0);
+	a->push (5);
+	a->push (8);
 	ASSERT_NO_THROW(a->vsplyt(1));
 }
 
 TEST(dheap, proverka_vsplytiya2)
 {
 	int c;
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,14);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
+	DHeap<int> *a = new DHeap <int> (3,0);
+	a->push (5);
+	a->push (8);
+	a->push (7);
+	a->push (14);
+	a->push (15);
+	a->push (12);
+	a->push (18);
+	a->push (8);
+	a->push (10);
+	a->push (12);
+	a->push (14);
+	a->push (15);
+	a->push (13);
 	a->vsplyt(12);
-	DHeap<int> *b = new DHeap <int> (3,13);
-	b->vstavka (0,5);
-	b->vstavka (1,8);
-	b->vstavka (2,7);
-	b->vstavka (3,13);
-	b->vstavka (4,15);
-	b->vstavka (5,12);
-	b->vstavka (6,18);
-	b->vstavka (7,8);
-	b->vstavka (8,10);
-	b->vstavka (9,12);
-	b->vstavka (10,14);
-	b->vstavka (11,15);
-	b->vstavka (12,14);
+
+	DHeap<int> *b = new DHeap <int> (3,0);
+	b->push (5);
+	b->push (8);
+	b->push (7);
+	b->push (13);
+	b->push (15);
+	b->push (12);
+	b->push (18);
+	b->push (8);
+	b->push (10);
+	b->push (12);
+	b->push (14);
+	b->push (15);
+	b->push (14);
 	c = a->operator==(*b);
 	EXPECT_EQ(c,1);
 }
@@ -103,130 +99,131 @@ TEST(dheap, throw_if_vsplyt_uncorrect)
 
 TEST(dheap, proverka_minchild)
 {
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,12);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
+	DHeap<int> *a = new DHeap <int> (3,0);
+	a->push (5);
+	a->push (8);
+	a->push (7);
+	a->push (14);
+	a->push (15);
+	a->push (12);
+	a->push (18);
+	a->push (8);
+	a->push (10);
+	a->push (12);
+	a->push (14);
+	a->push (15);
+	a->push (13);
 	int b = a->minchild(0);
 	EXPECT_EQ(b,2);
 }
 
 TEST(dheap, proverka_minchild2)
 {
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,12);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
+	DHeap<int> *a = new DHeap <int> (3,0);
+	a->push (5);
+	a->push (8);
+	a->push (7);
+	a->push (14);
+	a->push (15);
+	a->push (12);
+	a->push (18);
+	a->push (8);
+	a->push (10);
+	a->push (12);
+	a->push (14);
+	a->push (15);
+	a->push (13);
 	int b = a->minchild(8);
 	EXPECT_EQ(b,-1);
 }
 
 TEST(dheap, proverka_pogryzh)
 {
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,13);
-	a->vstavka (3,12);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
-	a->pogryzh(2);
-	DHeap<int> *b = new DHeap <int> (3,13);
-	b->vstavka (0,5);
-	b->vstavka (1,8);
-	b->vstavka (2,8);
-	b->vstavka (3,12);
-	b->vstavka (4,15);
-	b->vstavka (5,12);
-	b->vstavka (6,18);
-	b->vstavka (7,13);
-	b->vstavka (8,10);
-	b->vstavka (9,12);
-	b->vstavka (10,14);
-	b->vstavka (11,15);
-	b->vstavka (12,13);
+	DHeap<int> *a = new DHeap <int> (3,0);
+	a->push (5);
+	a->push (30);
+	a->push (7);
+	a->push (12);
+	a->push (15);
+	a->push (12);
+	a->push (18);
+	a->push (8);
+	a->push (10);
+	a->push (12);
+	a->push (14);
+	a->push (15);
+	a->push (13);
+	a->pogryzh(1);
+
+	DHeap<int> *b = new DHeap <int> (3,0);
+	b->push (5);
+	b->push (12);
+	b->push (7);
+	b->push (12);
+	b->push (15);
+	b->push (30);
+	b->push (18);
+	b->push (8);
+	b->push (10);
+	b->push (12);
+	b->push (14);
+	b->push (15);
+	b->push (13);
 	int c = a->operator==(*b);
 	EXPECT_EQ(c,1);
 }
 
 TEST(dheap, proverka_pogryzh2)
 {
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,100);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,12);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
+	DHeap<int> *a = new DHeap <int> (3,0);
+	a->push (100);
+	a->push (8);
+	a->push (7);
+	a->push (12);
+	a->push (15);
+	a->push (12);
+	a->push (18);
+	a->push (8);
+	a->push (10);
+	a->push (12);
+	a->push (14);
+	a->push (15);
+	a->push (13);
 	a->pogryzh(0);
-	DHeap<int> *b = new DHeap <int> (3,13);
-	b->vstavka (0,7);
-	b->vstavka (1,8);
-	b->vstavka (2,8);
-	b->vstavka (3,12);
-	b->vstavka (4,15);
-	b->vstavka (5,12);
-	b->vstavka (6,18);
-	b->vstavka (7,100);
-	b->vstavka (8,10);
-	b->vstavka (9,12);
-	b->vstavka (10,14);
-	b->vstavka (11,15);
-	b->vstavka (12,13);
+	DHeap<int> *b = new DHeap <int> (3,0);
+	b->push (7);
+	b->push (8);
+	b->push (8);
+	b->push (12);
+	b->push (15);
+	b->push (12);
+	b->push (18);
+	b->push (100);
+	b->push (10);
+	b->push (12);
+	b->push (14);
+	b->push (15);
+	b->push (13);
 	int c = a->operator==(*b);
 	EXPECT_EQ(c,1);
 }
 
 TEST(dheap, proverka_pogryzh3)
 {
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,12);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
+	DHeap<int> *a = new DHeap <int> (3,0);
+	a->push (5);
+	a->push (8);
+	a->push (7);
+	a->push (14);
+	a->push (15);
+	a->push (12);
+	a->push (18);
+	a->push (8);
+	a->push (10);
+	a->push (12);
+	a->push (14);
+	a->push (15);
+	a->push (13);
 	a->pogryzh(12);
 	int c = a->operator==(*a);
 	EXPECT_EQ(c,1);
@@ -240,70 +237,70 @@ TEST(dheap, throw_if_pogryzh_uncorrect)
 
 TEST(dheap, provekra_delet_s_min)
 {
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,12);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
+	DHeap<int> *a = new DHeap <int> (3,0);
+	a->push (5);
+	a->push (8);
+	a->push (7);
+	a->push (12);
+	a->push (15);
+	a->push (12);
+	a->push (18);
+	a->push (8);
+	a->push (10);
+	a->push (12);
+	a->push (14);
+	a->push (15);
+	a->push (13);
 	a->delet();
 
-	DHeap<int> *b = new DHeap <int> (3,12);
-	b->vstavka (0,7);
-	b->vstavka (1,8);
-	b->vstavka (2,8);
-	b->vstavka (3,12);
-	b->vstavka (4,15);
-	b->vstavka (5,12);
-	b->vstavka (6,18);
-	b->vstavka (7,13);
-	b->vstavka (8,10);
-	b->vstavka (9,12);
-	b->vstavka (10,14);
-	b->vstavka (11,15);
+	DHeap<int> *b = new DHeap <int> (3,0);
+	b->push (7);
+	b->push (8);
+	b->push (8);
+	b->push (12);
+	b->push (15);
+	b->push (12);
+	b->push (18);
+	b->push (13);
+	b->push (10);
+	b->push (12);
+	b->push (14);
+	b->push (15);
 	int c = a->operator==(*b);
 	EXPECT_EQ(c,1);
 }
 
 TEST(dheap, proverka_delet_s_zadan)
 {
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,12);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
+	DHeap<int> *a = new DHeap <int> (3,0);
+	a->push (5);
+	a->push (8);
+	a->push (7);
+	a->push (12);
+	a->push (15);
+	a->push (12);
+	a->push (18);
+	a->push (8);
+	a->push (10);
+	a->push (12);
+	a->push (14);
+	a->push (15);
+	a->push (13);
 	a->deletzadan(2);
 
-	DHeap<int> *b = new DHeap <int> (3,12);
-	b->vstavka (0,5);
-	b->vstavka (1,8);
-	b->vstavka (2,8);
-	b->vstavka (3,12);
-	b->vstavka (4,15);
-	b->vstavka (5,12);
-	b->vstavka (6,18);
-	b->vstavka (7,13);
-	b->vstavka (8,10);
-	b->vstavka (9,12);
-	b->vstavka (10,14);
-	b->vstavka (11,15);
+	DHeap<int> *b = new DHeap <int> (3,0);
+	b->push (5);
+	b->push (8);
+	b->push (8);
+	b->push (12);
+	b->push (15);
+	b->push (12);
+	b->push (18);
+	b->push (13);
+	b->push (10);
+	b->push (12);
+	b->push (14);
+	b->push (15);
 	int c = a->operator==(*b);
 	EXPECT_EQ(c,1);
 }
@@ -312,79 +309,6 @@ TEST(dheap, throw_if_idx_uncorrect)
 {
 	DHeap<int> *a = new DHeap <int> (3,13);
 	ASSERT_ANY_THROW(a->deletzadan(16));
-}
-
-TEST(dheap, proverka_delet_s_zadan2)
-{
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,12);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
-	a->deletzadan(0);
-
-	DHeap<int> *b = new DHeap <int> (3,12);
-	b->vstavka (0,7);
-	b->vstavka (1,8);
-	b->vstavka (2,8);
-	b->vstavka (3,12);
-	b->vstavka (4,15);
-	b->vstavka (5,12);
-	b->vstavka (6,18);
-	b->vstavka (7,13);
-	b->vstavka (8,10);
-	b->vstavka (9,12);
-	b->vstavka (10,14);
-	b->vstavka (11,15);
-	int c = a->operator==(*b);
-	EXPECT_EQ(c,1);
-}
-
-TEST(dheap, proverka_pusha)
-{
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,12);
-	a->vstavka (4,15);
-	a->vstavka (5,12);
-	a->vstavka (6,18);
-	a->vstavka (7,8);
-	a->vstavka (8,10);
-	a->vstavka (9,12);
-	a->vstavka (10,14);
-	a->vstavka (11,15);
-	a->vstavka (12,13);
-	a->push(4);
-
-	DHeap<int> *b = new DHeap <int> (3,14);
-	b->vstavka (0,4);
-	b->vstavka (1,5);
-	b->vstavka (2,7);
-	b->vstavka (3,12);
-	b->vstavka (4,8);
-	b->vstavka (5,12);
-	b->vstavka (6,18);
-	b->vstavka (7,8);
-	b->vstavka (8,10);
-	b->vstavka (9,12);
-	b->vstavka (10,14);
-	b->vstavka (11,15);
-	b->vstavka (12,13);
-	b->vstavka (13,15);
-	
-	int c = a->operator==(*b);
-	EXPECT_EQ(c,1);
 }
 
 TEST(dheap, proverka_okychivaniya)
@@ -416,13 +340,22 @@ TEST(dheap, throw_if_kycha_pusta_pri_okych)
 
 TEST(dheap, proverka_operatora_ravno)
 {
-	DHeap<int> *a = new DHeap <int> (3,13);
-	a->vstavka (0,5);
-	a->vstavka (1,8);
-	a->vstavka (2,7);
-	a->vstavka (3,12);
+	DHeap<int> *a = new DHeap <int> (3,0);
+	a->push (5);
+	a->push (8);
+	a->push (7);
+	a->push (14);
+	a->push (15);
+	a->push (12);
+	a->push (18);
+	a->push (8);
+	a->push (10);
+	a->push (12);
+	a->push (14);
+	a->push (15);
+	a->push (13);
 
-	DHeap<int> *b = new DHeap <int> (3,12);
+	DHeap<int> *b = new DHeap <int> (3,0);
 
 	a = b;
 	int c = a->operator==(*b);
@@ -430,3 +363,55 @@ TEST(dheap, proverka_operatora_ravno)
 }
 
 
+TEST(queue, can_create_queue)
+{
+	ASSERT_NO_THROW(HQueue<int> *a = new HQueue<int> (2));
+}
+
+TEST(queue, throw_if_uncorrect_arn)
+{
+	ASSERT_ANY_THROW(HQueue<int> *a = new HQueue<int> (-1));
+}
+
+TEST(queue, can_copy_queue)
+{
+	HQueue<int> *a = new HQueue<int> (2);
+	ASSERT_NO_THROW(HQueue<int> *b = new HQueue<int> (*a));
+}
+
+TEST(queue, proverka_isEmpty)
+{
+	HQueue<int> *a = new HQueue<int> (2);
+	EXPECT_EQ (a->isEmpty(), 1);
+}
+
+TEST(queue, proverka_popa)
+{
+	HQueue<int> *a = new HQueue<int> (2);
+	a->push(5);
+	a->pop();
+	EXPECT_EQ(a->isEmpty(), 1);
+}
+
+TEST(queue, throw_if_pop_iz_pustoi_queue)
+{
+	HQueue<int> *a = new HQueue<int> (2);
+	ASSERT_ANY_THROW(a->pop());
+}
+
+TEST(queue, proverka_topa)
+{
+	HQueue<int> *a = new HQueue<int> (2);
+	a->push(5);
+	EXPECT_EQ(a->top(), 5);
+}
+
+TEST(queue, proverka_na_ravenstvo)
+{
+	HQueue<int> *a = new HQueue<int> (2);
+	a->push(5);
+	HQueue<int> *b = new HQueue<int> (2);
+	b->push(5);
+	int c = a->operator==(*b);
+	EXPECT_EQ(c,1);
+}
