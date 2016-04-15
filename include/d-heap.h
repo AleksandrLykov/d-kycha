@@ -5,24 +5,32 @@
 #include <iostream>
 #include <cmath>
 
-#define MAX_HTYPE 1000
+#define MAX_HTYPE 10000
 
 using namespace std;
 
 template <class HType>
-class Data
+class Prior
 {
 public:
 	HType pr;
 };
 
+template <class HType>
+class Dist : public Prior<HType> //дистанция (для дейкстера)
+{
+public:
+	int v; //вершина
+
+	Dist (int, HType);
+};
 
 template <class HType>
 class DHeap
 {
 private:
 	int d; //арность
-	Data<HType>** keys;// массив
+	Prior<HType>** keys;// массив
 	int kolvo;//количество
 public:
 	DHeap (const int, const int);
@@ -43,12 +51,21 @@ public:
 	int operator == (const DHeap<HType>&)const;
 	DHeap& operator=(const DHeap<HType>&);
 	int getKolvo(); //возвращает количество элементов
-	HType getKey(int); // возвращает ключ
+	Prior<HType>* getKey(int); // возвращает ключ
 
 	void Sort(); //Пирамидальная сортировка
-
-	void add (Data<HType>**, int); // вставка графа
+	void addSet(Prior<HType>**, int); //вставка множества
+	void push (Prior<HType>*);
 };
+
+
+
+template <class HType>
+Dist<HType>::Dist (int a, HType d)
+{
+	v = a; //верщина
+	pr = d; //вес
+}
 
 template <class HType>
 DHeap<HType>::DHeap (const int arnost, const int size)
@@ -58,7 +75,7 @@ DHeap<HType>::DHeap (const int arnost, const int size)
 	exception ("введите корректные данные");
 	d = arnost; 
 	kolvo = size;
-	keys = new Data<HType>*[MAX_HTYPE];
+	keys = new Prior<HType>*[MAX_HTYPE];
 }
 
 template <class HType>
@@ -66,7 +83,7 @@ DHeap<HType>::DHeap (const DHeap &a)
 {	
 	d = a.d;
 	kolvo = a.kolvo;
-	keys = new Data<HType>*[MAX_HTYPE];
+	keys = new Prior<HType>*[MAX_HTYPE];
 	for (int i=0;i<=kolvo-1;i++)
 		keys[i] = a.keys[i];
 }
@@ -91,7 +108,7 @@ void DHeap<HType>::trans (const int a, const int b)
 	throw
 	exception ("введите корректный индекс");
 
-	Data<HType> *tmp = new Data<HType>;
+	Prior<HType> *tmp = new Prior<HType>;
 	tmp->pr = keys[a]->pr;
 	keys[a]->pr = keys[b]->pr;
 	keys[b]->pr = tmp->pr;
@@ -179,7 +196,7 @@ void DHeap<HType>::deletzadan (int a)
 template <class HType>
 void DHeap<HType>::push (HType a)
 {
-	Data<HType>* tmp2 = new Data<HType>;
+	Prior<HType>* tmp2 = new Prior<HType>;
 	tmp2->pr = a;
 
 	kolvo ++;
@@ -187,11 +204,18 @@ void DHeap<HType>::push (HType a)
 		throw
 		exception ("Перебор");
 
-	Data<HType>** tmp = new Data<HType>*[MAX_HTYPE];
+	Prior<HType>** tmp = new Prior<HType>*[MAX_HTYPE];
 	for (int i=0;i<kolvo-1;i++)
 		tmp[i] = keys[i];
 	tmp[kolvo - 1] = tmp2;
 	keys = tmp;
+}
+
+template <class HType>
+void DHeap<HType>::push (Prior<HType>* a)
+{
+	keys[kolvo] = a;
+	kolvo++;
 }
 
 template <class HType>
@@ -257,7 +281,7 @@ int DHeap<HType>::getKolvo ()
 }
 
 template <class HType>
-HType DHeap<HType>::getKey (int a)
+Prior<HType>* DHeap<HType>::getKey (int a)
 {
 	return keys[a]->pr;
 }
@@ -281,14 +305,17 @@ void DHeap<HType>::Sort ()
 }
 
 template <class HType>
-void DHeap<HType>::add (Data<HType> **a, int n)
+void DHeap<HType>::addSet (Prior<HType>** a, int n)
 {
 	if (kolvo + n >= MAX_HTYPE)
 		throw
 		exception ("Перебор");
-	for (int i = kolvo+1; i <kolvo+n+1; i++)
-		keys[i] = a[i-kolvo-1];
-	kolvo += n;
+	for (int i=kolvo; i < kolvo + n;i++)
+	{
+		keys[i] = a[i-kolvo];
+	}
+	kolvo+=n;
+	okych();
 }
 
 #endif

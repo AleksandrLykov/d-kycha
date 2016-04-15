@@ -3,7 +3,6 @@
 
 #include <d-heap.h>
 
-
 template <class HType>
 class HQueue
 {
@@ -13,12 +12,13 @@ public:
 	HQueue(int);
 	~HQueue();
 	HQueue(const HQueue<HType>&);
-	HQueue(Data<HType>**, int, int);
+	HQueue(Prior<HType>**, int, int);	
 
 	void push(const HType);
+	void push(Prior<HType>*);
 	void pop();
 	int isEmpty();
-	HType top();
+	Prior<HType>* top();
 	void vyvod();
 	int operator ==(const HQueue<HType>&)const;
 };
@@ -68,7 +68,13 @@ void HQueue<HType>::push(const HType a)
 }
 
 template <class HType>
-HType HQueue<HType>::top ()
+void HQueue<HType>::push(Prior<HType> *a)
+{
+	heap->push(a);
+}
+
+template <class HType>
+Prior<HType>* HQueue<HType>::top ()
 {
 	if (isEmpty())
 		throw
@@ -89,10 +95,10 @@ int HQueue<HType>::operator== (const HQueue<HType>& a)const
 }
 
 template <class HType>
-HQueue<HType>::HQueue (Data<HType> **a, int n, int d)
+HQueue<HType>::HQueue (Prior<HType>** a, int n, int d)
 {
-	heap = new DHeap<HType> (d, n);
-	heap->add(a, n);
+	heap = new DHeap<HType> (d, 0);
+	heap->addSet(a, n);
 }
-
+	
 #endif

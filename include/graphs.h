@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 #include "queue.h"
+#include "d-heap.h"
 
 #define maxVerticesSize 1000	
 
@@ -22,7 +23,8 @@ public:
 };
 
 template <class HType>
-class Graph {
+class Graph 
+{
 private:
 	int n; //количество вершин
 	int m; //количество ребер
@@ -40,11 +42,10 @@ public:
 	int getKolvo();
 	int getEdgeSize();
 	int getRealSize();	
-	edge<HType>*  getEdge(int);
+	edge<HType>*  getMinEdge(int);
 	HType getWeight(int, int); 
 	void print();
 	int findEdge(int, int);
-	edge<HType>** getEdgeSet();
 	void gen(int&, int&);
 
 	HType* deykstra (int);
@@ -149,37 +150,44 @@ int Graph<HType>::getRealSize()
 }
 
 template <class HType>
-edge<HType>** Graph<HType>::getEdgeSet()
-{
-	return edges;
-}
-
-template <class HType>
 HType Graph<HType>::getWeight(int a, int b)
 {
 	for (int i = 0; i < m_cur; i++)
-		if ((edges[i]->o == a) && (edges[i]->k == b))
+		if ((edges[i]->o == a) && (edges[i]->k == b) || (edges[i]->o == b) && (edges[i]->k == a))
 			return edges[i]->weight;
-	throw
-		exception ("Неверные данные");
+	return 0;
 }
 
 template <class HType>
 void Graph<HType>::print()
 {
+	HType **graph = new HType*[n];
+	for (int i=0;i<n;i++)
+		graph[i] = new HType[n];
+	for (int i=0;i<n;i++)
+		for (int j=0;j<n;j++)
+			graph[i][j] = 0;
+	for (int i=0;i<n;i++)
+		for (int j=0;j<m;j++)
+		{
+			if ((edges[j]->o == i) || (edges[j]->k == i))
+			{
+				graph[edges[j]->o][edges[j]->k] = edges[j]->weight;
+				graph[edges[j]->k][edges[j]->o] = edges[j]->weight;
+			}
+		}
 
+	
 	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j < m_cur; j++)
-		{
-			if (edges[j]->o == i)
-				cout << "из " << i << " в " << edges[j]->k << ": расстояние = " << edges[j]->weight << endl;
-		}
+		for(int j = 0; j < n; j++)
+			cout << graph[i][j] << " ";
+		cout << endl;
 	}
 }
 
 template <class HType>
-edge<HType>* Graph<HType>::getEdge(int a)
+edge<HType>* Graph<HType>::getMinEdge(int a)
 {
 	return edges[a];
 }
@@ -190,7 +198,7 @@ void Graph<HType>::delEdge(int a, int b)
 	int tmp = findEdge(a, b);
 	if (tmp == -1)
 		throw 
-		exception ("Такого графа нет");
+		exception ("Такого ребра нет");
 	delete edges[tmp];
 	edges[tmp] = edges[m_cur - 1];
 	m_cur--;
@@ -199,20 +207,67 @@ void Graph<HType>::delEdge(int a, int b)
 template <class HType>
 int Graph<HType>::findEdge(int a, int b)
 {	
-	for (int j = 0; j < m_cur; j++)
-		if ((edges[j]->o= a) && (edges[j]->k == b) || (edges[j]->k == a) && (edges[j]->o == b))
-			return j;
+	for (int i = 0; i < m_cur; i++)
+	{
+		if ((edges[i]->o == a) && (edges[i]->k == a) || (edges[i]->o == b) && (edges[i]->k == b))
+			return -1;
+		if ((edges[i]->o == a) && (edges[i]->k == b) || (edges[i]->k == a) && (edges[i]->o == b))
+			return i;
+	}
 	return -1;
 
 }
-
 
 template <class HType>
 HType* Graph<HType>::deykstra(int s)
 {
 	if ((s < 0) || (s >= n))
-		return 0;
-	return 0;
-};
+		throw 
+		exception ("Такой нет");
+	
+	HType **graph = new HType*[n];
+	for (int i=0;i<n;i++)
+		graph[i] = new HType[n];
+	for (int i=0;i<n;i++)
+		for (int j=0;j<n;j++)
+			graph[i][j] = 0;
+	for (int i=0;i<n;i++)
+		for (int j=0;j<m;j++)
+		{
+			if ((edges[j]->o == i) || (edges[j]->k == i))
+			{
+				graph[edges[j]->o][edges[j]->k] = edges[j]->weight;
+				graph[edges[j]->k][edges[j]->o] = edges[j]->weight;
+			}
+		}
+	
+	HType *dist = new HType[n];
+	bool *visited = new bool[n];
+	for(int i=0;i<n;i++) 
+	{
+		dist[i] = MAX_HTYPE;
+		visited[i] = false;
+	}
+	dist[s] = 0;
+	int idx, u;
+
+	for (int i=0; i<n-1;i++)
+	{
+		int min = MAX_HTYPE;
+		for (i=0; i<n;i++)
+			if (!visited[i] && dist[i] <= min)
+			{
+				min = dist[i];
+				idx = i;
+			}
+		u = idx;
+		visited[u] = true;
+		for (i=0; i<n; i++)
+			if ((!visited[i]) && (graph[u][i]) && (dist[u] != MAX_HTYPE) && (dist[u] + graph[u][i] < dist [i]))
+				dist[i] = dist[u] + graph[u][i];
+	}
+		
+	return dist;
+}
 
 #endif

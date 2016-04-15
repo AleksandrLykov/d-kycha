@@ -32,9 +32,12 @@ void main()
 	cout << "Применяем алгоритм.." << endl << endl;
 	float *dist = graph->deykstra(a);
 
-	cout << "Ответ: " << endl << endl;
+	cout << "Ответ: " << endl << endl;	
 	for (int i = 0; i < n; i++)
-		cout << dist[i] << ' ';
+		if (dist[i] == MAX_HTYPE)
+			cout << -1 << ' ';
+		else
+			cout << dist[i] << ' ';
 	cout << endl;
 
 }	
