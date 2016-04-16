@@ -42,12 +42,14 @@ public:
 	int getKolvo();
 	int getEdgeSize();
 	int getRealSize();	
+	edge<HType>** getEdgesets ();
 	edge<HType>*  getMinEdge(int);
 	HType getWeight(int, int); 
 	void print();
 	int findEdge(int, int);
 	void gen(int&, int&);
 
+	void sort();
 	HType* deykstra (int);
 };
 
@@ -95,10 +97,16 @@ template <class HType>
 void Graph<HType>::addEdge(int a, int b, HType c)
 {
 	if (m_cur == m)
-		throw "Граф полон";
+		throw 
+		exception ("Граф полон");
 	if (a == b)
-		throw "Петель не надо";
-	edges[m_cur] = new edge(a, b, c);
+		throw 
+		exception ("Петель не надо");
+	if ((a > n) || (b > n))
+		throw
+		exception ("Таких вершин нет");
+
+	edges[m_cur] = new edge<HType>(a, b, c);
 	m_cur++;
 }
 
@@ -161,28 +169,15 @@ HType Graph<HType>::getWeight(int a, int b)
 template <class HType>
 void Graph<HType>::print()
 {
-	HType **graph = new HType*[n];
-	for (int i=0;i<n;i++)
-		graph[i] = new HType[n];
-	for (int i=0;i<n;i++)
-		for (int j=0;j<n;j++)
-			graph[i][j] = 0;
-	for (int i=0;i<n;i++)
-		for (int j=0;j<m;j++)
-		{
-			if ((edges[j]->o == i) || (edges[j]->k == i))
-			{
-				graph[edges[j]->o][edges[j]->k] = edges[j]->weight;
-				graph[edges[j]->k][edges[j]->o] = edges[j]->weight;
-			}
-		}
-
+	cout << "Откуда -> куда (вес)" << endl;
 	
 	for (int i = 0; i < n; i++)
 	{
-		for(int j = 0; j < n; j++)
-			cout << graph[i][j] << " ";
-		cout << endl;
+		for (int j = 0; j < m_cur; j++)
+		{
+			if (edges[j]->o == i)
+				cout << edges[j]->o << "->" << edges[j]->k << " (" << edges[j]->weight << ")" << endl;
+		}
 	}
 }
 
@@ -219,6 +214,26 @@ int Graph<HType>::findEdge(int a, int b)
 }
 
 template <class HType>
+void Graph<HType>::sort()
+{
+	edge<HType>* tmp = edges[0];
+	for (int i=0; i<m_cur-1; i++)
+		for (int j=0; j<m_cur-1; j++)
+			if (edges[j+1]->weight < edges[j]->weight)
+			{
+				tmp = edges[j+1];
+				edges[j+1] = edges[j];
+				edges[j] = tmp;
+			}
+}
+
+template <class HType>
+edge<HType>** Graph<HType>::getEdgesets()
+{
+	return edges;
+}
+
+template <class HType>
 HType* Graph<HType>::deykstra(int s)
 {
 	if ((s < 0) || (s >= n))
@@ -250,7 +265,7 @@ HType* Graph<HType>::deykstra(int s)
 	}
 	dist[s] = 0;
 	int idx, u;
-
+//////////////////////////////////////////////////////////////
 	for (int i=0; i<n-1;i++)
 	{
 		int min = MAX_HTYPE;

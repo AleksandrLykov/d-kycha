@@ -1,6 +1,8 @@
 #include <d-heap.h>
 #include <gtest.h>
 #include <queue.h>
+#include <graphs.h>
+#include "sets.h"
 
 TEST(dheap, can_create_dheap)
 {
@@ -362,7 +364,7 @@ TEST(dheap, proverka_operatora_ravno)
 	EXPECT_EQ(c,1);
 }
 
-
+/////////////////////////////////////////////////////////////////////////
 TEST(queue, can_create_queue)
 {
 	ASSERT_NO_THROW(HQueue<int> *a = new HQueue<int> (2));
@@ -403,7 +405,7 @@ TEST(queue, proverka_topa)
 {
 	HQueue<int> *a = new HQueue<int> (2);
 	a->push(5);
-	EXPECT_EQ(a->top(), 5);
+	EXPECT_EQ(a->top()->pr, 5);
 }
 
 TEST(queue, proverka_na_ravenstvo)
@@ -415,3 +417,154 @@ TEST(queue, proverka_na_ravenstvo)
 	int c = a->operator==(*b);
 	EXPECT_EQ(c,1);
 }
+
+/////////////////////////////////////////////////////////////////////////
+TEST(graph, can_create_graph)
+{
+	ASSERT_NO_THROW(Graph<int> *a = new Graph<int>(5,8) );
+}
+
+TEST(graph, throw_if_create_graph_with_uncorrect)
+{
+	ASSERT_ANY_THROW(Graph<int> *a = new Graph<int>(5,15) );
+}
+
+TEST(graph, proverka_get_kolvo)
+{
+	Graph<int> *a = new Graph<int>(5,8);
+		EXPECT_EQ(a->getKolvo(), 5);
+}
+
+TEST(graph, proverka_getEdgeSize)
+{
+	Graph<int> *a = new Graph<int>(5,8);
+	EXPECT_EQ(a->getEdgeSize(), 8);
+}
+
+TEST(graph, proverka_getRealSize)
+{
+	Graph<int> *a = new Graph<int>(5,1);
+	EXPECT_EQ(a->getRealSize(), 0);
+}
+
+TEST(graph, can_add_edge)
+{
+	Graph<int> *a = new Graph<int>(5,3);
+	a->addEdge(2,3,6);
+	EXPECT_EQ(a->getRealSize(), 1);
+}
+
+TEST(graph, throw_if_uncorrect_add_edge)
+{
+	Graph<int> *a = new Graph<int>(5,8);
+	ASSERT_ANY_THROW(a->addEdge(6,1,5));
+}
+
+TEST(graph, throw_if_uncorrect_add_edge2)
+{
+	Graph<int> *a = new Graph<int>(5,8);
+	ASSERT_ANY_THROW(a->addEdge(2,2,6));
+}
+
+TEST(graph, throw_if_graph_isFull)
+{
+	Graph<int> *a = new Graph<int>(2,1);
+	a->addEdge(0,1,6);
+	ASSERT_ANY_THROW(a->addEdge(1,0,6));
+}
+
+TEST(graph, proverka_getWeight)
+{
+	Graph<int> *a = new Graph<int>(2,1);
+	a->addEdge(0,1,7);
+	EXPECT_EQ(a->getWeight(0,1), 7);
+}
+
+TEST(graph, proverka_delEdge)
+{
+	Graph<int> *a = new Graph<int>(2,1);
+	a->addEdge(0,1,5);
+	a->delEdge(0,1);
+	EXPECT_EQ(a->getRealSize(), 0);
+}
+
+TEST(graph, throw_if_uncorrect_del)
+{
+	Graph<int> *a = new Graph<int>(2,1);
+	ASSERT_ANY_THROW(a->delEdge(0,1));
+}
+
+TEST(graph, proverka_findEdge)
+{
+	Graph<int> *a = new Graph<int>(2,1);
+	a->addEdge(0,1,5);
+	EXPECT_EQ(a->findEdge(0,1), 0);
+}
+
+TEST(graph, proverka_if_uncorrect_find)
+{
+	Graph<int> *a = new Graph<int>(2,1);
+	EXPECT_EQ(a->findEdge(3,4), -1);
+}
+
+
+///////////////////////////////////////////////////////////////////
+TEST(sets, can_create_sets)
+{
+	ASSERT_NO_THROW(sets<int> *a = new sets<int>(2));
+}
+
+TEST(sets, can_makesets)
+{
+	sets<int> *a = new sets<int>(2);
+	ASSERT_NO_THROW(a->makesets(1));
+}
+
+TEST(sets, can_find_sets)
+{
+	sets<int> *a = new sets<int>(2);
+	a->makesets(1);
+	EXPECT_EQ(a->findsets(1), 1);
+}
+
+TEST(sets, throw_if_uncorrect_find)
+{
+	sets<int> *a = new sets<int>(2);
+	ASSERT_ANY_THROW(a->findsets(5));
+}
+
+TEST(sets, throw_if_uncorrect_make)
+{
+	sets<int> *a = new sets<int>(2);
+	ASSERT_ANY_THROW(a->makesets(8));
+}
+
+TEST(sets, throw_if_elem_already_used)
+{
+	sets<int> *a = new sets<int>(2);
+	a->makesets(1);
+	ASSERT_ANY_THROW(a->makesets(1));
+}
+
+TEST(sets, can_union_sets)
+{
+	sets<int> *a = new sets<int>(2);
+	a->makesets(1);
+	a->makesets(0);
+	ASSERT_NO_THROW(a->unionsets(0,1));
+}
+
+TEST(sets, throw_if_uncorrect_union)
+{
+	sets<int> *a = new sets<int>(2);
+	ASSERT_ANY_THROW(a->unionsets(5,1));
+}
+
+TEST(sets, throw_if_union_not_root_elem)
+{
+	sets<int> *a = new sets<int>(2);
+	ASSERT_ANY_THROW(a->unionsets(0,1));
+}
+
+
+

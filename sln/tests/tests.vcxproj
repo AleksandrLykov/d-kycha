@@ -72,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\gtest\gtest.vcxproj">
-      <Project>{b3e163fd-fcdb-416c-9c6e-8c1c2d1f4dfb}</Project>
+      <Project>{c21d6356-4448-4a00-8126-061573b486f5}</Project>
       <Private>true</Private>
       <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
       <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>

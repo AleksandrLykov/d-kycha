@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\set.h">
+    <ClInclude Include="..\..\include\sets.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

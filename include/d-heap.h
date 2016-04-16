@@ -54,7 +54,7 @@ public:
 	Prior<HType>* getKey(int); // возвращает ключ
 
 	void Sort(); //Пирамидальная сортировка
-	void addSet(Prior<HType>**, int); //вставка множества
+	void addsets(Prior<HType>**, int); //вставка множества
 	void push (Prior<HType>*);
 };
 
@@ -283,7 +283,7 @@ int DHeap<HType>::getKolvo ()
 template <class HType>
 Prior<HType>* DHeap<HType>::getKey (int a)
 {
-	return keys[a]->pr;
+	return keys[a];
 }
 
 template <class HType>
@@ -305,7 +305,7 @@ void DHeap<HType>::Sort ()
 }
 
 template <class HType>
-void DHeap<HType>::addSet (Prior<HType>** a, int n)
+void DHeap<HType>::addsets (Prior<HType>** a, int n)
 {
 	if (kolvo + n >= MAX_HTYPE)
 		throw

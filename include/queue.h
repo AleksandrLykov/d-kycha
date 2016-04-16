@@ -20,6 +20,7 @@ public:
 	int isEmpty();
 	Prior<HType>* top();
 	void vyvod();
+	int getSize ();
 	int operator ==(const HQueue<HType>&)const;
 };
 
@@ -62,6 +63,12 @@ void HQueue<HType>::pop()
 }
 
 template <class HType>
+int HQueue<HType>::getSize()
+{
+	return heap->getKolvo();
+}
+
+template <class HType>
 void HQueue<HType>::push(const HType a)
 {
 	heap->push(a);
@@ -98,7 +105,7 @@ template <class HType>
 HQueue<HType>::HQueue (Prior<HType>** a, int n, int d)
 {
 	heap = new DHeap<HType> (d, 0);
-	heap->addSet(a, n);
+	heap->addsets(a, n);
 }
 	
 #endif
