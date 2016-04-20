@@ -49,6 +49,7 @@ public:
 	int findEdge(int, int);
 	void gen(int&, int&);
 
+	bool visit (int, int*);
 	void sort();
 	HType* deykstra (int);
 };
@@ -176,7 +177,7 @@ void Graph<HType>::print()
 		for (int j = 0; j < m_cur; j++)
 		{
 			if (edges[j]->o == i)
-				cout << edges[j]->o << "->" << edges[j]->k << " (" << edges[j]->weight << ")" << endl;
+				cout << edges[j]->o << "<->" << edges[j]->k << " (" << edges[j]->weight << ")" << endl;
 		}
 	}
 }
@@ -234,6 +235,16 @@ edge<HType>** Graph<HType>::getEdgesets()
 }
 
 template <class HType>
+bool Graph<HType>::visit (int a, int* b)
+{
+	bool res = false;
+	for (int i=0;i<n;i++)
+		if (b[i] == a)
+			res = true;
+	return res;
+}
+
+template <class HType>
 HType* Graph<HType>::deykstra(int s)
 {
 	if ((s < 0) || (s >= n))
@@ -246,6 +257,7 @@ HType* Graph<HType>::deykstra(int s)
 	for (int i=0;i<n;i++)
 		for (int j=0;j<n;j++)
 			graph[i][j] = 0;
+
 	for (int i=0;i<n;i++)
 		for (int j=0;j<m;j++)
 		{
@@ -255,33 +267,43 @@ HType* Graph<HType>::deykstra(int s)
 				graph[edges[j]->k][edges[j]->o] = edges[j]->weight;
 			}
 		}
-	
-	HType *dist = new HType[n];
-	bool *visited = new bool[n];
-	for(int i=0;i<n;i++) 
-	{
-		dist[i] = MAX_HTYPE;
-		visited[i] = false;
-	}
-	dist[s] = 0;
-	int idx, u;
+
+	HType *dist = new HType[n]; //расстояние
+	HType *P = new HType[n]; //массив промежуточных вершин
+	int *vis = new int[n]; //массив посещенных вершин
+	for (int i=0; i<n;i++)
+		vis[i] = -1;
+	vis[0] = s;
+	int w, min;
 //////////////////////////////////////////////////////////////
-	for (int i=0; i<n-1;i++)
-	{
-		int min = MAX_HTYPE;
-		for (i=0; i<n;i++)
-			if (!visited[i] && dist[i] <= min)
-			{
-				min = dist[i];
-				idx = i;
-			}
-		u = idx;
-		visited[u] = true;
-		for (i=0; i<n; i++)
-			if ((!visited[i]) && (graph[u][i]) && (dist[u] != MAX_HTYPE) && (dist[u] + graph[u][i] < dist [i]))
-				dist[i] = dist[u] + graph[u][i];
+	for (int i=0; i<n; i++) 
+	{                       
+		if (graph[s][i]==0)
+			dist[i]=MAX_HTYPE;
+			else dist[i]=graph[s][i];
 	}
-		
+	for (int i=1; i<n-1; i++) 
+	{
+		min=MAX_HTYPE;
+		for (int k=0; k<n; k++) {
+			if (dist[k] < min && k!=s && !visit(k, vis) ) 
+			{
+				w=k;
+				min=dist[k];
+			}
+		}
+		if (min == MAX_HTYPE) break;
+		vis[i]=w;
+		for (int j=0; j < n; j++) {
+			if (!visit(j,vis) && graph[w][j]!=0 && (dist[w]+graph[w][j])<=dist[j]) 
+			{
+				P[j]=w;
+				dist[j]=dist[w]+graph[w][j];
+			}
+		}
+	}
+
+	dist[s] = 0;
 	return dist;
 }
 
