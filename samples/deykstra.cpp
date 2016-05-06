@@ -5,7 +5,6 @@ void main()
 {
 	setlocale(LC_CTYPE, "Russian");
 	cout << "АЛГОРИТМ ДЕЙКСТРЫ" << endl << endl;
-	
 	cout << "Введите количество вершин" << endl;
 	int n;
 	cin >> n;
@@ -14,7 +13,9 @@ void main()
 	int m;
 	cin >> m;
 	Graph<float> *graph = new Graph<float> (n,m);
-	
+		float *P = new float(n); //кратчайший путь
+		for (int i=0; i<=n;i++)
+			P[i] = 0;
 	cout << "Будем генерировать граф" << endl;
 	cout << "Введите минимальное и максимальное значение веса графа" << endl;
 	float min, max;
@@ -30,14 +31,21 @@ void main()
 	int a;
 	cin >> a; 
 	cout << "Применяем алгоритм.." << endl << endl;
-	float *dist = graph->deykstra(a);
+	float *dist = graph->deykstra(a,P);
 
 	cout << "Ответ: " << endl << endl;	
+	
+	for (int i=0; i<n;i++)
+		cout << i << ' ';
+	cout << "- номера вершин" <<  endl << endl;
 	for (int i = 0; i < n; i++)
 		if (dist[i] == MAX_HTYPE)
-			cout << -1 << ' ';
+			cout << 0 << ' ';
 		else
-			cout << dist[i] << ' ';
-	cout << endl;
+			cout << dist[i] << ' ' ;
+	cout << "- кратчайшие пути" <<  endl << endl;
+	for (int i=0;i<n;i++)
+			cout << P[i] << ' ';
+	cout << "- предшествующие вершины " <<  endl << endl;
 
 }	

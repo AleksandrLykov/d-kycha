@@ -46,11 +46,12 @@ void sets<HType>::makesets(HType a)
 	if ((a > n) || (a < 0))
 		throw 
 		exception ("Некорректный элемент");
-	if (parent[a] != -1)
+	
+	if (parent[(int)a] != -1)
 		throw 
 		exception ("элемент уже занят");
 
-	parent[a] = a;
+	parent[(int)a] = a;
 }
 
 template <class HType>
@@ -59,11 +60,11 @@ HType sets<HType>::findsets (HType a)
 	if ((a > n) || (a < 0))
 		throw 
 		exception ("Некорректный элемент");
-	if (parent[a] == -1)
+	if (parent[(int)a] == -1)
 		return -1;
 
-	while (parent[a] != a)
-		a = parent[a];
+	while (parent[(int)a] != a)
+		a = parent[(int)a];
 	return a;	
 }
 
@@ -73,14 +74,14 @@ void sets<HType>::unionsets (HType a, HType b)
 	if ((a > n) || (a < 0) || (b > n) || (b < 0))
 		throw 
 		exception ("Некорректный элемент");
-	if ((parent[a] == -1) || (parent[b] == -1))
+	if ((parent[(int)a] == -1) || (parent[(int)b] == -1))
 		throw
 		exception ("Пустое множество");
 
 	a = findsets (a);
 	b = findsets (b);
 	if (a != b)
-		parent [b] = a;
+		parent [(int)b] = a;
 }
 
 template <class HType>

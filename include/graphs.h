@@ -51,7 +51,7 @@ public:
 
 	bool visit (int, int*);
 	void sort();
-	HType* deykstra (int);
+	HType* deykstra (int, HType*&);
 };
 
 template <class HType>
@@ -245,7 +245,7 @@ bool Graph<HType>::visit (int a, int* b)
 }
 
 template <class HType>
-HType* Graph<HType>::deykstra(int s)
+HType* Graph<HType>::deykstra(int s, HType *&P)
 {
 	if ((s < 0) || (s >= n))
 		throw 
@@ -256,7 +256,7 @@ HType* Graph<HType>::deykstra(int s)
 		graph[i] = new HType[n];
 	for (int i=0;i<n;i++)
 		for (int j=0;j<n;j++)
-			graph[i][j] = 0;
+			graph[i][j] = -1;
 
 	for (int i=0;i<n;i++)
 		for (int j=0;j<m;j++)
@@ -269,16 +269,16 @@ HType* Graph<HType>::deykstra(int s)
 		}
 
 	HType *dist = new HType[n]; //расстояние
-	HType *P = new HType[n]; //массив промежуточных вершин
 	int *vis = new int[n]; //массив посещенных вершин
 	for (int i=0; i<n;i++)
 		vis[i] = -1;
 	vis[0] = s;
+	int pyt;
 	int w, min;
 //////////////////////////////////////////////////////////////
 	for (int i=0; i<n; i++) 
 	{                       
-		if (graph[s][i]==0)
+		if (graph[s][i] == -1)
 			dist[i]=MAX_HTYPE;
 			else dist[i]=graph[s][i];
 	}
@@ -295,7 +295,7 @@ HType* Graph<HType>::deykstra(int s)
 		if (min == MAX_HTYPE) break;
 		vis[i]=w;
 		for (int j=0; j < n; j++) {
-			if (!visit(j,vis) && graph[w][j]!=0 && (dist[w]+graph[w][j])<=dist[j]) 
+			if (!visit(j,vis) && graph[w][j] != -1 && (dist[w]+graph[w][j])<=dist[j]) 
 			{
 				P[j]=w;
 				dist[j]=dist[w]+graph[w][j];

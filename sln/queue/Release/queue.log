@@ -1,0 +1,12 @@
+﻿Build started 06.05.2016 11:25:32.
+     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\queue\queue.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\queue.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       FinalizeBuildStatus:
+         Deleting file "Release\queue.unsuccessfulbuild".
+         Touching "Release\queue.lastbuildstate".
+     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\sln\queue\queue.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.00

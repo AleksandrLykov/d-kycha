@@ -4,7 +4,6 @@ void main ()
 {
 	setlocale(LC_CTYPE, "Russian");
 	int n;
-	cout << "јјјјЋЋ√ќ–»“ћ  –””””””— аЋя" << endl;
 	cout << "¬ведите количество вершин" << endl;
 
 	cin >> n;
@@ -12,22 +11,42 @@ void main ()
 	cout << "¬ведите количество ребер" << endl;
 	int m;
 	cin >> m;
-	Graph<int> *graph = new Graph<int> (n,m);
+	Graph<float> *graph = new Graph<float> (n,m);
 	
-	cout << "Ѕудем генерировать граф" << endl;
-	cout << "¬ведите минимальное и максимальное значение веса графа" << endl;
-	int min, max;
-	cin >> min;
-	cin >> max;
-	graph->createGraph(min, max);
+	int l;
+	cout << "Ѕудем генерировать граф (1) или вручную (2)?" << endl;
+	cin >> l;
+	switch (l)
+	{
+	case 1:
+		cout << "¬ведите минимальное и максимальное значение веса" << endl;
+		int min, max;
+		cin >> min;
+		cin >> max;
+		graph->createGraph(min, max);
+		break;
+	case 2:
+		for (int i=0; i<m;i++)
+		{
+			cout << "¬ведите откуда, куда и вес" << endl;
+			int a,b;
+			float c;
+			cin >> a;
+			cin >> b;
+			cin >> c;
+			graph->addEdge(a,b,c);
+		}
+		break;	
+	}
+
 	system ("cls");
 	
 	cout << "ѕолучилс€ вот такой вот граф: " << endl<<endl;
 	graph->print();
 
 	cout << "ѕримен€ем алгоритм  рускала.." << endl;
-	Graph<int> *res = new Graph<int> (n,m);
-	sets<int> *a = new sets<int> (n);
+	Graph<float> *res = new Graph<float> (n,m);
+	sets<float> *a = new sets<float> (n);
 
 	res = a->kruskal(graph);
 	cout << endl << endl;
