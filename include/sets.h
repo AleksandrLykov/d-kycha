@@ -10,82 +10,92 @@ template <class HType>
 class sets
 {
 private:
-	HType n;//универс
-	HType *parent;//множества
+	int *parent;
+	int *height;
+	int n;
 public:
-	sets(HType);
+	sets(int);
 	~sets();
 
-	void makesets (HType);
-	HType findsets (HType);
-	void unionsets (HType, HType);
+	void makesets (int);
+	int findsets (int);
+	void unionsets (int, int);
 	void vyvod();
 
-	HType* getsets(HType);
+	int* getsets(int);
 	Graph<HType>* kruskal(Graph<HType>*&);
 };
 
 template <class HType>
-sets<HType>::sets(HType a)
+sets<HType>::sets(int a)
 {
-	n = a;
-	parent = new HType[n];
-	for (int i=0;i<n;i++)
+	parent = new int[a];
+	for (int i = 0; i < a; i++)
 		parent[i] = -1;
+	height = new int[a];
+	n = a;
 }
 
 template <class HType>
 sets<HType>::~sets()
 {
 	delete[] parent;
+	delete[] height;
 }
 
 template <class HType> 
-void sets<HType>::makesets(HType a)
+void sets<HType>::makesets(int a)
 {
 	if ((a > n) || (a < 0))
 		throw 
 		exception ("Некорректный элемент");
 	
-	if (parent[(int)a] != -1)
-		throw 
-		exception ("элемент уже занят");
+	if (parent[a] != -1)
+		return;
 
-	parent[(int)a] = a;
+	parent[a] = a;
+	height[a] = 0;
 }
 
 template <class HType>
-HType sets<HType>::findsets (HType a)
+int sets<HType>::findsets (int a)
 {
 	if ((a > n) || (a < 0))
 		throw 
 		exception ("Некорректный элемент");
-	if (parent[(int)a] == -1)
+	if (parent[a] == -1)
 		return -1;
 
-	while (parent[(int)a] != a)
-		a = parent[(int)a];
+	while (parent[a] != a)
+		a = parent[a];
 	return a;	
 }
 
 template <class HType>
-void sets<HType>::unionsets (HType a, HType b)
+void sets<HType>::unionsets (int a, int b)
 {
 	if ((a > n) || (a < 0) || (b > n) || (b < 0))
 		throw 
 		exception ("Некорректный элемент");
-	if ((parent[(int)a] == -1) || (parent[(int)b] == -1))
+	if ((parent[a] == -1) || (parent[b] == -1))
 		throw
 		exception ("Пустое множество");
 
 	a = findsets (a);
 	b = findsets (b);
-	if (a != b)
-		parent [(int)b] = a;
+	if (height[a] > height[b])
+		parent[b] = a;
+	else if (height[a] < height[b])
+		parent[a] = b;
+	else
+	{
+		parent[b] = a;
+		height[a]++;
+	}
 }
 
 template <class HType>
-HType* sets<HType>::getsets (HType a)
+int* sets<HType>::getsets (int a)
 {
 	if ((a > n) || (a < 0))
 		throw 
@@ -94,8 +104,8 @@ HType* sets<HType>::getsets (HType a)
 		throw 
 		exception ("Нужен главный элемент");
 	
-	stack<HType> st;
-	HType *res = new HType;
+	stack<int> st;
+	int *res = new int;
 	for (int i=0; i<n; i++)
 	{
 		if (parent[i] == a)
@@ -137,6 +147,22 @@ void sets<HType>::vyvod ()
 }
 
 template <class HType>
+class DataEdge : public Prior<HType>
+{
+public:
+	DataEdge (edge<HType> *);
+	edge<HType> *e;
+};
+
+template <class HType>
+DataEdge<HType>::DataEdge (edge<HType> *a)
+{
+	e = a;
+	pr = e->weight;
+}
+
+
+template <class HType>
 Graph<HType>* sets<HType>::kruskal (Graph<HType>*& gr)
 {
 	
@@ -144,28 +170,31 @@ Graph<HType>* sets<HType>::kruskal (Graph<HType>*& gr)
 	int m = gr->getRealSize();
 	Graph<HType> *tree = new Graph<HType>(n,m);
 
-	sets<HType> *s = new sets<HType>(n);
+	sets<HType> *set = new sets<HType>(n);
 	for (int i=0; i<n; i++)
-		s->makesets(i);
+		set->makesets(i);
 
-	gr->sort();
-	int treeSize = 0;
-	int i = 0;
-	while ((treeSize < n-1) && (i < m))
+	Prior<HType> **data = new Prior<HType>*[m];
+	for (int i=0; i<m;i++)
+		data[i] = new DataEdge<HType>(gr->getEdgesets()[i]);
+
+	HQueue<HType> *queue = new HQueue<HType>(data, m, 4);
+	int treeEdgeSize = 0;
+	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
 	{
-		edge<HType> *tmp = gr->getMinEdge(i);
-		int o = tmp->o;
-		int k = tmp->k;
-		int weight = tmp->weight;
-		int Ao = s->findsets(o);
-		int Ak = s->findsets(k);
-		if (Ao != Ak)
+		Prior<HType> *tmp = queue->top();
+		queue->pop();
+		int N = ((DataEdge<HType>*)tmp)->e->o;
+		int K = ((DataEdge<HType>*)tmp)->e->k;
+		HType weight = ((DataEdge<HType>*)tmp)->e->weight;
+		int An = set->findsets(N);
+		int Ak = set->findsets(K);
+		if (An != Ak)
 		{
-			s->unionsets(Ao, Ak);
-			tree->addEdge(o, k, weight);
-			treeSize++;
+			set->unionsets(An, Ak);
+			tree->addEdge(N, K, weight);
+			treeEdgeSize++;
 		}
-		i++;
 	}
 
 	return tree;

@@ -134,7 +134,7 @@ void Graph<HType>::createGraph (HType a, HType b)
 	for (int i = 0; i < m; i++)
 	{
 		gen(u, v);
-		weight = rand() % (int)(a - b - 1) + a;
+		weight = a + static_cast <HType> (rand()) /( static_cast <HType> (RAND_MAX/(b-a)));
 		edges[i] = new edge<HType>(u, v, weight);
 		m_cur++;
 	}

@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{45C096F2-A135-4141-BBBC-392E1BE9DD62}</ProjectGuid>
     <RootNamespace>queue</RootNamespace>
+    <ProjectName>queue_dheap</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
