@@ -1,5 +1,8 @@
 #include "sets.h"
 #include "queue_AVL.h"
+#include "table.h"
+
+#define typ int
 
 void main ()
 {
@@ -23,7 +26,7 @@ void main ()
 			int m;
 			cin >> m;
 
-			Graph<float> *graph = new Graph<float> (n,m);
+			Graph<typ> *graph = new Graph<typ> (n,m);
 		
 			int l;
 			cout << "Будем генерировать граф (1) или вручную (2)?" << endl;
@@ -61,8 +64,8 @@ void main ()
 			graph->print();
 		
 			cout << "Применяем алгоритм Крускала.." << endl;
-			Graph<float> *res = new Graph<float> (n,m);
-			sets<float> *a = new sets<float> (n);
+			Graph<typ> *res = new Graph<typ> (n,m);
+			sets<typ> *a = new sets<typ> (n);
 
 			res = a->kruskal(graph);
 			cout << endl << endl;
@@ -75,7 +78,7 @@ void main ()
 			cout << "Введите количество элементов в дереве" << endl;
 			int a;
 			cin >> a;
-			BQueue<int> *avl = new BQueue<int>();
+			BQueue<typ> *avl = new BQueue<typ>();
 			cout << "Будем генерировать дерево (1) или вручную (2)?" << endl;
 			int b;
 			cin >> b;
@@ -91,7 +94,7 @@ void main ()
 
 				srand(time(NULL));
 				for (int i=0; i<a;i++)
-					avl->push(min + static_cast <int> (rand()) /( static_cast <int> (RAND_MAX/(max - min))));
+					avl->push(min + static_cast <typ> (rand()) /( static_cast <typ> (RAND_MAX/(max - min))));
 			}
 			if (b == 2)
 			{
@@ -108,7 +111,24 @@ void main ()
 			cout << "Дерево выглядит так: " << endl;
 			avl->print();
 
+			cout << endl;
+			Node<typ> *tmp = new Node<typ>;
+			tmp = avl->top();
+			cout << endl << tmp->key << endl << endl;
+			avl->pop();
+			avl->print();
+		}
+	case 3:
+		{
+			system ("cls");
+			cout << "size" << endl;
+			int s;
+			cin >> s;
+			ScanTable<typ> *a = new ScanTable<typ>(s);
 
+			a->insert(1, 5);
+			a->insert(2, 11);
+			a->print();
 		}
 	}
 }

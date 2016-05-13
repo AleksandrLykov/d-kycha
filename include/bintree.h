@@ -20,15 +20,13 @@ public:
 	Node<TType> *parent; //родитель
 	Node() {left = NULL; right = NULL; parent = NULL; balance = 0; };
 	Node(const TType& k) {key = k; left = NULL; right = NULL; parent = NULL; balance = 0;};
-	~Node() {delete left; delete right; delete parent;};
 };
 
 template <class TType>
 class bintree
 {	
-private:
-	int size; //количество элементов в дереве
 public:
+	int size; //количество элементов в дереве
 	Node<TType> *root;
 	bintree ();
 	~bintree ();
