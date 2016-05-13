@@ -1,0 +1,48 @@
+﻿Build started 13.05.2016 12:09:15.
+     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\sample_deykstra\sample_deykstra.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\sample_deykstra.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I..\..\include /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\samples\deykstra.cpp
+         deykstra.cpp
+     1>c:\users\stud2015\desktop\laba\d-kycha\d-kycha\samples\deykstra.cpp(16): warning C4244: 'initializing' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stud2015\desktop\laba\d-kycha\d-kycha\include\graphs.h(133): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+                 c:\users\stud2015\desktop\laba\d-kycha\d-kycha\include\graphs.h(127) : while compiling class template member function 'void Graph<HType>::createGraph(HType,HType)'
+                 with
+                 [
+                     HType=float
+                 ]
+                 c:\users\stud2015\desktop\laba\d-kycha\d-kycha\samples\deykstra.cpp(24) : see reference to function template instantiation 'void Graph<HType>::createGraph(HType,HType)' being compiled
+                 with
+                 [
+                     HType=float
+                 ]
+                 c:\users\stud2015\desktop\laba\d-kycha\d-kycha\samples\deykstra.cpp(15) : see reference to class template instantiation 'Graph<HType>' being compiled
+                 with
+                 [
+                     HType=float
+                 ]
+     1>c:\users\stud2015\desktop\laba\d-kycha\d-kycha\include\graphs.h(292): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+                 c:\users\stud2015\desktop\laba\d-kycha\d-kycha\include\graphs.h(249) : while compiling class template member function 'float *Graph<HType>::deykstra(int,HType *&)'
+                 with
+                 [
+                     HType=float
+                 ]
+                 c:\users\stud2015\desktop\laba\d-kycha\d-kycha\samples\deykstra.cpp(34) : see reference to function template instantiation 'float *Graph<HType>::deykstra(int,HType *&)' being compiled
+                 with
+                 [
+                     HType=float
+                 ]
+     1>c:\users\stud2015\desktop\laba\d-kycha\d-kycha\include\graphs.h(300): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\stud2015\desktop\laba\d-kycha\d-kycha\include\graphs.h(276): warning C4101: 'pyt' : unreferenced local variable
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\Debug\sample_deykstra.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\Debug\sample_deykstra.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\Debug\sample_deykstra.lib" /MACHINE:X86 Debug\deykstra.obj
+         sample_deykstra.vcxproj -> C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\Debug\sample_deykstra.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\sample_deykstra.unsuccessfulbuild".
+         Touching "Debug\sample_deykstra.lastbuildstate".
+     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\sample_deykstra\sample_deykstra.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.62

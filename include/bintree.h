@@ -20,6 +20,7 @@ public:
 	Node<TType> *parent; //родитель
 	Node() {left = NULL; right = NULL; parent = NULL; balance = 0; };
 	Node(const TType& k) {key = k; left = NULL; right = NULL; parent = NULL; balance = 0;};
+	~Node() {delete left; delete right; delete parent;};
 };
 
 template <class TType>

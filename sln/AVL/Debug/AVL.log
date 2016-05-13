@@ -1,0 +1,12 @@
+﻿Build started 13.05.2016 12:09:15.
+     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\AVL\AVL.vcxproj" on node 3 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\AVL.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       FinalizeBuildStatus:
+         Deleting file "Debug\AVL.unsuccessfulbuild".
+         Touching "Debug\AVL.lastbuildstate".
+     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\AVL\AVL.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.04

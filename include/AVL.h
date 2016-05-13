@@ -12,25 +12,49 @@ public:
 	~AVL();
 
 	int BFactor(Node<TType>*); // получить баланс
-	void rotateRight(Node<TType> *&); //однократный правый поворот
+	Node<TType>* rotateRight(Node<TType> *); //однократный правый поворот
 	void rotateLeft(Node<TType> *&); //однократный левый поворот
-	void doubleRotateRight (Node<TType> *&); //двукратный правый поворот
-	void doubleRotateLeft (Node<TType> *&); //двукратный левый поворот
+	Node<TType>* doubleRotateRight (Node<TType> *); //двукратный правый поворот
+	Node<TType>* doubleRotateLeft (Node<TType> *); //двукратный левый поворот
 	void Balance (Node<TType>*&); //балансировка
 
 	void recursInsert (Node<TType>*&, Node<TType>*);
 	void recursDelete (Node<TType>*&, const TType&);
 	virtual void insert (const TType& k)
 	{
-		if (root == NULL)
+		TType a = k;
+	if (root == NULL)
+	{
+		root = new Node<TType>;
+		root -> key = a;
+		return;
+	}
+	Node<TType> *x = root, *y = 0;
+	while (x != NULL)
+	{
+ 		y = x;
+		if (x->key <= a)
 		{
-			root = new Node<TType>(k);
-			return;
+			x = x->right;			
 		}
-		Node<TType>* tr = root;
-		Node<TType>* tmp = new Node<TType>(k);		
-		recursInsert(tr, tmp);
-		root = tr;
+		else
+		{
+			x = x->left;
+		}
+	}
+	if (y->key <= a)
+	{
+		y->right = new Node<TType>;
+		y->right->key = a;
+		y->right->parent = y;
+	}
+	else
+	{
+		y->left = new Node<TType>;
+		y->left->key = a;
+		y->left->parent = y;
+	}
+	Balance(root);
 	};
 	virtual void Delete (const TType &k)
 	{
@@ -55,12 +79,13 @@ AVL<TType>::~AVL()
 template <class TType>
 int AVL<TType>::BFactor (Node<TType>* tr)
 {
-	return getHeight(tr->right) - getHeight(tr->left);
+	Node<TType> *tmp = tr;
+	return getHeight(tmp->right) - getHeight(tmp->left) + 1;
 }
 
 template <class TType>
-void AVL<TType>::rotateRight (Node<TType> *&node)
-{
+Node<TType>* AVL<TType>::rotateRight (Node<TType> *node)
+{	
 	Node<TType> *A  = node;
 	Node<TType> *B  = A->left;
 	Node<TType> *t = B->right;
@@ -72,6 +97,7 @@ void AVL<TType>::rotateRight (Node<TType> *&node)
 	t->parent = A;
 
 	node = B;
+	return node;
 }
 
 template <class TType>
@@ -79,7 +105,7 @@ void AVL<TType>::rotateLeft (Node<TType> *&node)
 {
 	Node<TType> *A  = node;
 	Node<TType> *B  = A->right;
-	Node<TType> *t1 = B->left;
+	Node<TType> *t1 = B->right;
 
 	A->right = t1;
 	B->left = A;
@@ -88,10 +114,11 @@ void AVL<TType>::rotateLeft (Node<TType> *&node)
 	t1->parent = A;
 
 	node = B;
+
 }
 
 template <class TType>
-void AVL<TType>::doubleRotateRight (Node<TType> *&node)
+Node<TType>* AVL<TType>::doubleRotateRight (Node<TType> *node)
 {
 	Node<TType> *A  = node;
 	Node<TType> *B  = A->left;
@@ -112,10 +139,11 @@ void AVL<TType>::doubleRotateRight (Node<TType> *&node)
 	t3->parent = A;
 
 	node = C;
+	return node;
 }
 
 template <class TType>
-void AVL<TType>::doubleRotateLeft (Node<TType> *&node)
+Node<TType>* AVL<TType>::doubleRotateLeft (Node<TType> *node)
 {
 	Node<TType> *A  = node;
 	Node<TType> *B  = A->right;
@@ -136,6 +164,7 @@ void AVL<TType>::doubleRotateLeft (Node<TType> *&node)
 	t3->parent = B;
 
 	node = C;
+	return node;
 }
 
 template <class TType> 
@@ -161,7 +190,7 @@ void AVL<TType>::recursInsert (Node<TType> *& tree, Node<TType>* node)
 			else 
 				recursInsert(tree->right, node);
 		}
-	Balance(tree);
+	rotateLeft(p);
 }
 
 template <class TType>
@@ -183,69 +212,67 @@ void AVL<TType>::recursDelete (Node<TType> *& tree, const TType& k)
 					tree->parent->right = NULL;
 				delete tree;
 			}
+		if ((tree->right == NULL) && (tree->left != NULL))
+		{
+			if (tree->parent->left == tree) 
+				tree->parent->left = tree->left;
 			else 
-				if (tree->right == NULL) 
-				{
-					if (tree->parent->left == tree) 
-						tree->parent->left = tree->left;
-					else 
-						tree->parent->right = tree->left;
-					tree->left->parent = tree->parent;
-					delete tree;
-				}
+				tree->parent->right = tree->left;
+			tree->left->parent = tree->parent;
+			delete tree;
+		}
+		if ((tree->left == NULL) && (tree->right != NULL))
+		{
+			if (tree->parent->left == tree) 
+				tree->parent->left = tree->right;
 			else 
-				if (tree->left == NULL) 
+				tree->parent->right = tree->right;
+			tree->right->parent = tree->parent;
+			delete tree;
+		}
+		if ((tree->left != NULL) && (tree->right != NULL))
+		{
+			Node<TType>* tmpNext = FindNext(tree, tree);
+			Node<TType>* tmp = tmpNext->parent;
+			tmpNext->right->parent = tmpNext->parent;		
+			if (tmpNext->parent->left == tmpNext) 
+				tmpNext->parent->left = tmpNext->right;
+			else 
+				tmpNext->parent->right = tmpNext->right;
+				tmpNext->parent = tree->parent;
+				tmpNext->left = tree->left;
+				tmpNext->right = tree->right;
+				delete tree;
+				
+				while (tmp != tmpNext)
 				{
-					if (tree->parent->left == tree) 
-						tree->parent->left = tree->right;
-					else 
-						tree->parent->right = tree->right;
-					tree->right->parent = tree->parent;
-					delete tree;
-				}
-				else
-				{
-					Node<TType>* tmpNext = FindNext(tree, tree);
-					Node<TType>* tmp = tmpNext->parent;
-	
-					tmpNext->right->parent = tmpNext->parent;		
-					if (tmpNext->parent->left == tmpNext) 
-						tmpNext->parent->left = tmpNext->right;
-					else 
-						tmpNext->parent->right = tmpNext->right;
-	
-					tmpNext->parent = tree->parent;
-					tmpNext->left = tree->left;
-					tmpNext->right = tree->right;
-					delete tree;
-					
-					while (tmp != tmpNext)
-					{
-						Balance(tmp);
-						tmp = tmp->parent;
-					}
+					Balance(tmp);
+					tmp = tmp->parent;
 				}
 		}
-		
+		}
 }
 
 template <class TType>
 void AVL<TType>::Balance (Node<TType>*& p)
 {
-	int c = BFactor(p);
-	if (c == 2)
+	if (p == NULL)
+		return;
+	p->balance = BFactor(p);
+	if (p->balance == 2)
 	{
 		if (BFactor(p->right) < 0)
-			rotateRight(p->right);
+			p->right = rotateRight(p->right);
 		rotateLeft(p);
+		p->balance = BFactor(p);
 	}
-	if (c == -2)
+	if (p->balance == -2)
 	{
 		if (BFactor (p->left) > 0)
 			rotateLeft(p->left);
-		rotateRight(p);
-	}
-	p->balance = BFactor(p);
+		p = rotateRight(p);
+		p->balance = BFactor(p);
+	}	
 }
 
 #endif

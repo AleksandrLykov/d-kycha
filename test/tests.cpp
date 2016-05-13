@@ -847,3 +847,10 @@ TEST(bintree, proverka_getHeight)
 }
 
 
+TEST(avl, iusf)
+{
+	AVL<int> *tmp = new AVL<int>;
+	tmp->insert(1);
+	tmp->insert(2);
+	tmp->insert(3);
+}

@@ -1,0 +1,12 @@
+﻿Build started 13.05.2016 11:00:29.
+     1>Project "C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\graph\graph.vcxproj" on node 2 (Build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\graph.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       FinalizeBuildStatus:
+         Deleting file "Release\graph.unsuccessfulbuild".
+         Touching "Release\graph.lastbuildstate".
+     1>Done Building Project "C:\Users\stud2015\Desktop\laba\d-kycha\d-kycha\sln\graph\graph.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.01
