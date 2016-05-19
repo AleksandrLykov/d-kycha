@@ -219,11 +219,11 @@ void Graph<HType>::sort()
 {
 	edge<HType>* tmp = edges[0];
 	for (int i=0; i<m_cur-1; i++)
-		for (int j=0; j<m_cur-1; j++)
-			if (edges[j+1]->weight < edges[j]->weight)
+		for (int j=i+1; j<m_cur; j++)
+			if (edges[i]->weight < edges[j]->weight)
 			{
-				tmp = edges[j+1];
-				edges[j+1] = edges[j];
+				tmp = edges[i];
+				edges[i] = edges[j];
 				edges[j] = tmp;
 			}
 }
