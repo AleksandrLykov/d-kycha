@@ -171,7 +171,6 @@ template <class HType>
 void Graph<HType>::print()
 {
 	cout << "Откуда -> куда (вес)" << endl;
-	
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < m_cur; j++)
@@ -217,15 +216,22 @@ int Graph<HType>::findEdge(int a, int b)
 template <class HType>
 void Graph<HType>::sort()
 {
-	edge<HType>* tmp = edges[0];
-	for (int i=0; i<m_cur-1; i++)
-		for (int j=i+1; j<m_cur; j++)
-			if (edges[i]->weight < edges[j]->weight)
+	edge<HType> *tmp = new edge<HType>(0,0,0);
+	for (int i=0; i<m;i++)
+	{
+		int pos = i;
+		tmp = edges[i];
+		for (int j=i+1; j<m;j++)
+		{
+			if (edges[j]->weight < tmp->weight)
 			{
-				tmp = edges[i];
-				edges[i] = edges[j];
-				edges[j] = tmp;
+				pos = j;
+				tmp = edges[j];
 			}
+		}
+		edges[pos] = edges[i];
+		edges[i] = tmp;
+	}
 }
 
 template <class HType>

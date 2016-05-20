@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <queue>
 #include <stack>
+#include "graphs.h"
+#include "sets.h"
 
 using namespace std;
 
@@ -51,6 +53,8 @@ public:
 	int operator== (const bintree<TType>&)const;
 	int getSize();
 	int getHeight(Node<TType>*); //высота дерева
+
+	Graph<TType>* kruskal (Graph<TType>*&);
 };
 
 template <class TType>
@@ -199,8 +203,7 @@ template <class TType>
 Node<TType>* bintree<TType>::FindMin (Node<TType> *tr)
 {
 	if (tr == NULL)
-		throw
-		exception ("А дерево то пустое");
+		return;
 	while (tr -> left != NULL)
 		tr = tr -> left;
 	return tr;
@@ -397,5 +400,47 @@ int bintree<TType>::getHeight (Node<TType> *tr)
     int max = l > r ? l : r;
     return max+1;
 }
+
+
+template <class TType>
+Graph<TType>* bintree<TType>::kruskal (Graph<TType>*& gr)
+{
+	int n = gr->getKolvo();
+	int m = gr->getRealSize();
+	Graph<TType> *tree = new Graph<TType>(n,m);
+
+	sets<TType> *set = new sets<TType>(n);
+	for (int i=0; i<n; i++)
+		set->makesets(i);
+	
+	BQueue<edge<TType>*> *queue = new BQueue<edge<TType>*>;
+	for (int i=0; i<m; i++)
+		queue->push(gr->getMinEdge(i));
+
+	edge<TType>* tmp2 = new edge<TType>(0,0,0);
+	Node<edge<TType>*>* tmp = new Node<edge<TType>*>;
+	int treeEdgeSize = 0;
+	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
+	{
+		tmp = queue->top();
+		queue->pop();
+
+		tmp2 = tmp->key;
+		int N = tmp2->o;
+		int K = tmp2->k;
+		TType weight = tmp2->weight;
+		int An = set->findsets(N);
+		int Ak = set->findsets(K);
+		if (An != Ak)
+		{
+			set->unionsets(An, Ak);
+			tree->addEdge(N, K, weight);
+			treeEdgeSize++;
+		}
+	}
+
+	return tree;
+}
+
 
 #endif

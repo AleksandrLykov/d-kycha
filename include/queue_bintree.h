@@ -1,13 +1,13 @@
 #ifndef __queue_h__
 #define __queue_h__
 
-#include "AVL.h"
+#include "bintree.h"
 
 template <class TType>
 class BQueue
 {
 private:
-	AVL<TType> *tree;
+	bintree<TType> *tree;
 public:
 	BQueue();
 	~BQueue();
@@ -19,14 +19,14 @@ public:
 	void print();
 	int GetSize();
 	int operator==(const BQueue<TType>&)const;
-	AVL<TType>* getTree ();
+	bintree<TType>* getTree ();
 };
 
 
 template <class TType>
 BQueue<TType>::BQueue ()
 {
-	tree = new AVL<TType>;
+	tree = new bintree<TType>;
 }
 
 template <class TType>
@@ -47,7 +47,8 @@ int BQueue<TType>::isEmpty()
 template <class TType>
 void BQueue<TType>::push (const TType a)
 {
-	tree->insert(a);
+	Node<TType> *tmp = new Node<TType>(a);
+	tree->insert(tree->root, tmp);
 }
 
 template <class TType>
@@ -66,7 +67,7 @@ void BQueue<TType>::pop()
 		throw
 		exception ("Очередь пуста");
 
-	tree->Delete(tree->root->key);
+	tree->Delete(tree->root, tree->root->key);
 }
 
 template <class TType>
@@ -98,7 +99,7 @@ int BQueue<TType>::operator==(const BQueue<TType>& a)const
 }
 
 template <class TType>
-AVL<TType>* BQueue<TType>::getTree()
+bintree<TType>* BQueue<TType>::getTree()
 {
 	return tree;
 }

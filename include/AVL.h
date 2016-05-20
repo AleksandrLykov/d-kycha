@@ -3,7 +3,7 @@
 
 #include "bintree.h"
 #include "graphs.h"
-#include "queue_AVL.h"
+#include "queue_bintree.h"
 
 template <class TType>
 class AVL : public bintree<TType>
@@ -197,7 +197,6 @@ void AVL<TType>::recursDelete (Node<TType> *& tree, const TType& k)
 					tree->parent->right = NULL;
 				else
 					tree->parent->left = NULL;
-				delete tree;
 			}
 			else if ((tree->right == NULL) && (tree->left != NULL))
 				{
@@ -207,7 +206,6 @@ void AVL<TType>::recursDelete (Node<TType> *& tree, const TType& k)
 					tree->parent->right = y;
 				else
 					tree->parent->left = y;
-				delete tree;
 				}
 			else if ((tree->left == NULL) && (tree->right != NULL))
 				{
@@ -217,17 +215,15 @@ void AVL<TType>::recursDelete (Node<TType> *& tree, const TType& k)
 					tree->parent->right = y;
 				else
 					tree->parent->left = y;
-				delete tree;
 				}
 			else 
 				{
-				Node<TType>* y = FindMin(tree->right);
+			Node<TType>* y = FindMin(tree->right);
 			tree->key = y->key;
 			y->parent->left = y->right;
 			if (y->right != NULL)
 				y->right->parent = y->parent;
 			delete y;
-			Balance(tree);
 			}
 		}		
 }
@@ -251,51 +247,7 @@ void AVL<TType>::Balance (Node<TType>*& p)
 	p->balance = BFactor(p);
 }
 
-template <class TType>
-Graph<TType>* AVL<TType>::kruskal (Graph<TType>*& gr)
-{
-	int n = gr->getKolvo();
-	int m = gr->getRealSize();
-	Graph<TType> *tree = new Graph<TType>(n,m);
 
-	sets<TType> *set = new sets<TType>(n);
-	for (int i=0; i<n; i++)
-		set->makesets(i);
-
-	Prior<TType> **data = new Prior<TType>*[m];
-	for (int i=0; i<m;i++)
-		data[i] = new DataEdge<TType>(gr->getEdgesets()[i]);
-
-	BQueue<TType> *queue = new BQueue<TType>;
-	for (int i=0; i<m; i++)
-		queue->push(data[i]->pr);
-
-	int treeEdgeSize = 0;
-	int i;
-	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
-	{
-		i=0;
-
-		Node<TType> *tmp = queue->top();
-		queue->pop();
-
-		while (tmp->key != data[i]->pr)
-			i++;
-		int N = ((DataEdge<TType>*)data)->e->o;
-		int K = ((DataEdge<TType>*)data)->e->k;
-		TType weight = tmp->key;
-		int An = set->findsets(N);
-		int Ak = set->findsets(K);
-		if (An != Ak)
-		{
-			set->unionsets(An, Ak);
-			tree->addEdge(N, K, weight);
-			treeEdgeSize++;
-		}
-	}
-
-	return tree;
-}
 
 
 #endif

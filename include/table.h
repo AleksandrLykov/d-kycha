@@ -5,15 +5,16 @@
 
 using namespace std;
 
+#define typ int
 
 template<class TType>
 class TabRecord {
 protected:
-	int key; //ключ
+	typ key; //ключ
 	TType data; //идентификатор
 public:
-	TabRecord (int a, TType b) {key = a; data = b;};
-	int getKey() {return key;};
+	TabRecord (typ a, TType b) {key = a; data = b;};
+	typ getKey() {return key;};
 	TType getData() {return data;};
 };
 
@@ -27,12 +28,12 @@ protected:
 public:
 	Table (int);
 
-	virtual TabRecord<TType>* search (int) = 0; //поиск
-	virtual void insert (int, TType) = 0; //вставка
-	virtual void erase (int) = 0; //удаление
+	virtual TabRecord<TType>* search (typ) = 0; //поиск
+	virtual void insert (typ, TType) = 0; //вставка
+	virtual void erase (typ) = 0; //удаление
 	int	isEmpty (); //проверка на пустоту
 	int	isFull (); //проверка на полноту
-	int getCount (); //вернуть текущее количество записей
+	virtual int getCount (); //вернуть текущее количество записей
 	virtual void reset (); //указатель в начало
 	virtual int	goNext (); //переход к следующей записи
 	virtual int isTabEnded ();
@@ -115,7 +116,7 @@ public:
 		delete[]recs;
 	}
 
-	virtual TabRecord<TType>* search (int k)
+	virtual TabRecord<TType>* search (typ k)
 	{
 		for (int i=0; i<count; i++)
 			if (k == recs[i]->getKey() )
@@ -125,7 +126,7 @@ public:
 			}
 		return NULL;
 	};
-	virtual void insert (int k, TType Data)
+	virtual void insert (typ k, TType Data)
 	{
 		if (isFull() )
 			throw
@@ -134,7 +135,7 @@ public:
 		recs[count] = new TabRecord<TType>(k, Data);
 		count++;
 	}
-	virtual void erase(int k)
+	virtual void erase(typ k)
 	{
 		if (isEmpty () )
 			return;
@@ -146,6 +147,10 @@ public:
 		count--;
 	}
 	void print();
+	virtual int GetCount()
+	{
+		return count;
+	};
 };
 
 template <class TType>
@@ -169,29 +174,31 @@ public:
 		delete[]recs;
 	}
 	
-	virtual TabRecord<TType>* search (int k)const
+	virtual TabRecord<TType>* search (typ key)
 	{
 		int left = 0;
 		int right = count - 1;
 		int mid;
-
-		while(left <= right)
+		while (left <= right)
 		{
-			mid = left + (right - left) / 2;
-			if (k < recs[mid]->getKey() )
-				right = mid - 1;
-			else if (key > recs[mid]->getKey()) 
-				left = mid + 1;
-			else 
-			{
-				pos = mid;
-				return recs[mid];
-			}
-			pos = right;
+		mid = left + (right - left) / 2;
+		if (key < recs[mid]->getKey()) {
+			right = mid - 1;
+			pos = left;
 		}
-		return NULL;
+		else if (key > recs[mid]->getKey()) {
+			left = mid + 1;
+			pos = left;
+		}
+		else
+		{
+			pos = mid;
+			return recs[mid];
+		}
+	}
+	return 0;
 	};
-	virtual void insert(int k, TType Data)
+	virtual void insert(typ k, TType Data)
 	{
 		if (isFull() )
 			throw
@@ -200,10 +207,10 @@ public:
 		tmp = search(k);
 		for (int i=count+1; i>=pos+1; i--)
 			recs[i] = recs[i-1];
-		recs[pos] = new TableRecord(k,Data);
+		recs[pos] = new TabRecord<TType>(k,Data);
 		count++;
 	};
-	virtual void erase(int k)
+	virtual void erase(typ k)
 	{
 		if (isEmpty() )
 			return;
@@ -211,7 +218,7 @@ public:
 			throw
 			exception ("Элемента нет такого");
 
-		delete recs[pos];
+		
 		for (int i=pos; i<count - 1; i++)
 			recs[i] = recs[i+1];
 		recs[count] = NULL;
@@ -219,6 +226,8 @@ public:
 	};
 
 	void sort();
+	TabRecord<TType>* min ();
+	Graph<TType>* kruskal (Graph<TType> *&);
 };
 
 template <class TType>
@@ -248,5 +257,54 @@ void SortTable<TType>::sort ()
 				recs[j] = tmp;
 			}
 };
+
+template <class TType>
+TabRecord<TType>* SortTable<TType>::min ()
+{
+	return recs[0];
+}
+
+
+
+template <class TType>
+Graph<TType>* SortTable<TType>::kruskal (Graph<TType>*& gr)
+{
+	int n = gr->getKolvo();
+	int m = gr->getRealSize();
+	Graph<TType> *tree = new Graph<TType>(n,m);
+
+	sets<TType> *set = new sets<TType>(n);
+	for (int i=0; i<n; i++)
+		set->makesets(i);
+
+	TQueue<edge<TType>*> *queue = new TQueue<edge<TType>*>(m);
+	for (int i=0; i<m; i++)
+		queue->push (gr->getMinEdge(i)->weight ,gr->getMinEdge(i));
+
+	int treeEdgeSize = 0;
+	edge<TType>* tmp2 = new edge<TType>(0,0,0);
+	TabRecord<edge<TType>*>* tmp = new TabRecord<edge<TType>*>(0,tmp2);
+
+	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
+	{
+		tmp = queue->top();
+		queue->pop();
+		TType weight = tmp->getKey();
+		tmp2 = tmp->getData();
+		int N = tmp2->o;
+		int K = tmp2->k;
+		
+		int An = set->findsets(N);
+		int Ak = set->findsets(K);
+		if (An != Ak)
+		{
+			set->unionsets(An, Ak);
+			tree->addEdge(N, K, weight);
+			treeEdgeSize++;
+		}
+	}
+
+	return tree;
+}
 
 #endif

@@ -174,7 +174,7 @@ Graph<HType>* sets<HType>::kruskal (Graph<HType>*& gr)
 	for (int i=0; i<n; i++)
 		set->makesets(i);
 
-	
+	gr->sort();
 	Prior<HType> **data = new Prior<HType>*[m];
 	for (int i=0; i<m;i++)
 		data[i] = new DataEdge<HType>(gr->getEdgesets()[i]);
