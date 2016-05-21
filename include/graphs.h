@@ -4,12 +4,11 @@
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
-#include "queue.h"
-#include "d-heap.h"
-
-#define maxVerticesSize 1000	
+#include "hqueue.h"
+#include "d_heap.h"
 
 using namespace std;
+
 
 template <class HType>
 class edge //ребро 
@@ -29,24 +28,21 @@ private:
 	int n; //количество вершин
 	int m; //количество ребер
 	edge<HType>** edges; //ребра
-	int* vertices; //вершины
 	int m_cur; //текущее ребро
-
 public:
 	Graph(int, int);
 	~Graph();
 
-	void createGraph (HType, HType);
-	void addEdge(int, int, HType);
-	void delEdge(int, int);
-	int getKolvo();
-	int getEdgeSize();
-	int getRealSize();	
-	edge<HType>** getEdgesets ();
-	edge<HType>*  getMinEdge(int);
-	HType getWeight(int, int); 
-	void print();
-	int findEdge(int, int);
+	void createGraph (HType, HType); //создать граф
+	void addEdge(int, int, HType); //добавить ребро
+	void delEdge(int, int); //удалить ребро
+	int getKolvo(); //вернуть количество вершин
+	int getEdgeSize(); //вернуть максимальное количество ребер
+	int getRealSize();	//вернуть дейсвствующее количество ребер
+	edge<HType>*  getEdge(int); //вернуть ребро
+	HType getWeight(int, int);  //вернуть вес ребра
+	void print(); 
+	int findEdge(int, int); 
 	void gen(int&, int&);
 
 	bool visit (int, int*);
@@ -79,9 +75,6 @@ Graph<HType>::Graph(int a, int b)
 
 	m_cur = 0;
 
-	vertices = new int[n];
-	for (int i=0;i<n;i++)
-		vertices[i] = i;
 	edges = new edge<HType>*[m];
 }
 
@@ -91,7 +84,6 @@ Graph<HType>::~Graph()
 	for (int i = 0; i < m_cur; i++)
 		delete edges[i];
 	delete[] edges;
-	delete[]vertices;
 }
 
 template <class HType>
@@ -161,6 +153,9 @@ int Graph<HType>::getRealSize()
 template <class HType>
 HType Graph<HType>::getWeight(int a, int b)
 {
+	if ((a < 0) || (a > n) || (b < 0) || (b > n))
+		throw
+		exception ("Неверные номера вершин");
 	for (int i = 0; i < m_cur; i++)
 		if ((edges[i]->o == a) && (edges[i]->k == b) || (edges[i]->o == b) && (edges[i]->k == a))
 			return edges[i]->weight;
@@ -182,7 +177,7 @@ void Graph<HType>::print()
 }
 
 template <class HType>
-edge<HType>* Graph<HType>::getMinEdge(int a)
+edge<HType>* Graph<HType>::getEdge(int a)
 {
 	return edges[a];
 }
@@ -219,25 +214,16 @@ void Graph<HType>::sort()
 	edge<HType> *tmp = new edge<HType>(0,0,0);
 	for (int i=0; i<m;i++)
 	{
-		int pos = i;
-		tmp = edges[i];
-		for (int j=i+1; j<m;j++)
+		for (int j=m-1;j>i;j--)
 		{
-			if (edges[j]->weight < tmp->weight)
+			if (edges[j]->weight < edges[j-1]->weight)
 			{
-				pos = j;
 				tmp = edges[j];
+				edges[j] = edges[j-1];
+				edges[j-1] = tmp;
 			}
 		}
-		edges[pos] = edges[i];
-		edges[i] = tmp;
 	}
-}
-
-template <class HType>
-edge<HType>** Graph<HType>::getEdgesets()
-{
-	return edges;
 }
 
 template <class HType>

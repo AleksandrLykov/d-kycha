@@ -2,10 +2,11 @@
 #define __TABLE_H__
 
 #include <iostream>
+#include "graphs.h"
 
 using namespace std;
 
-#define typ int
+typedef float typ;
 
 template<class TType>
 class TabRecord {
@@ -33,7 +34,7 @@ public:
 	virtual void erase (typ) = 0; //удаление
 	int	isEmpty (); //проверка на пустоту
 	int	isFull (); //проверка на полноту
-	virtual int getCount (); //вернуть текущее количество записей
+	virtual int GetCount (); //вернуть текущее количество записей
 	virtual void reset (); //указатель в начало
 	virtual int	goNext (); //переход к следующей записи
 	virtual int isTabEnded ();
@@ -64,7 +65,7 @@ int Table<TType>::isFull ()
 }
 
 template <class TType>
-int Table<TType>::getCount ()
+int Table<TType>::GetCount ()
 {
 	return count;
 }
@@ -151,6 +152,8 @@ public:
 	{
 		return count;
 	};
+	int getSize();
+	TabRecord<TType>** getRecs();
 };
 
 template <class TType>
@@ -162,11 +165,23 @@ void ScanTable<TType>::print()
 	}
 }
 
+template <class TType>
+int ScanTable<TType>::getSize()
+{
+	return size;
+}
+
+template <class TType>
+TabRecord<TType>** ScanTable<TType>::getRecs()
+{
+	return recs;
+}
+
 template<class TType>
 class SortTable : public ScanTable<TType> {	
 public:
 	SortTable(int size) : ScanTable<TType>(size) {};
-	SortTable(const ScanTable<TType>&);
+	SortTable(ScanTable<TType>& table) : ScanTable<TType>(table) {sort();}
 	virtual ~SortTable()
 	{
 		for (int i=0; i<size; i++)
@@ -231,20 +246,6 @@ public:
 };
 
 template <class TType>
-SortTable<TType>::SortTable (const ScanTable<TType>& table)
-{
-	size = table.size;
-	pos = 0;
-	count = table.count;
-	recs = new TabRecord<TType>*[size];
-
-	for (int i=0; i<count; i++)
-		recs[i] = new TabRecord<TType>(table.recs[i]->getKey(), table.recs[i]->getData() );
-
-	sort();
-}
-
-template <class TType>
 void SortTable<TType>::sort ()
 {
 	TabRecord<TType> *tmp;
@@ -264,8 +265,6 @@ TabRecord<TType>* SortTable<TType>::min ()
 	return recs[0];
 }
 
-
-
 template <class TType>
 Graph<TType>* SortTable<TType>::kruskal (Graph<TType>*& gr)
 {
@@ -277,31 +276,32 @@ Graph<TType>* SortTable<TType>::kruskal (Graph<TType>*& gr)
 	for (int i=0; i<n; i++)
 		set->makesets(i);
 
-	TQueue<edge<TType>*> *queue = new TQueue<edge<TType>*>(m);
-	for (int i=0; i<m; i++)
-		queue->push (gr->getMinEdge(i)->weight ,gr->getMinEdge(i));
+	TQueue<TType> *queue = new TQueue<TType>(m);
+	for (int i=0; i<m;i++)
+		queue->push(gr->getEdge(i)->weight,i);
 
-	int treeEdgeSize = 0;
-	edge<TType>* tmp2 = new edge<TType>(0,0,0);
-	TabRecord<edge<TType>*>* tmp = new TabRecord<edge<TType>*>(0,tmp2);
+	int treeEdgeSize = 0; 
+	int z = 0;
+	TabRecord<TType>* tmp = new TabRecord<TType>(0,0);
 
 	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
 	{
 		tmp = queue->top();
 		queue->pop();
+
+		int u = gr->getEdge(z)->o;
+		int v = gr->getEdge(z)->k;
 		TType weight = tmp->getKey();
-		tmp2 = tmp->getData();
-		int N = tmp2->o;
-		int K = tmp2->k;
-		
-		int An = set->findsets(N);
-		int Ak = set->findsets(K);
+
+		int An = set->findsets(u);
+		int Ak = set->findsets(v);
 		if (An != Ak)
 		{
 			set->unionsets(An, Ak);
-			tree->addEdge(N, K, weight);
+			tree->addEdge(u, v, weight);
 			treeEdgeSize++;
 		}
+		z++;
 	}
 
 	return tree;

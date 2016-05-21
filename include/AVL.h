@@ -36,7 +36,7 @@ public:
 		Balance(root);
 		size ++;
 	};
-	virtual void Delete (const TType &k)
+	virtual void Delete (const TType& k)
 	{
 		if (root == NULL)
 			return;
@@ -50,8 +50,6 @@ public:
 		Balance(root);
 		size--;
 	};	
-
-	Graph<TType>* kruskal (Graph<TType> *&);
 };
 
 template <class TType>
@@ -246,8 +244,6 @@ void AVL<TType>::Balance (Node<TType>*& p)
 	}
 	p->balance = BFactor(p);
 }
-
-
 
 
 #endif

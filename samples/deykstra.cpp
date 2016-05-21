@@ -1,5 +1,7 @@
 #include "graphs.h"
-#include "queue.h"
+#include "hqueue.h"
+
+typedef int typ;
 
 void main()
 {
@@ -12,13 +14,13 @@ void main()
 	cout << "Введите количество ребер" << endl;
 	int m;
 	cin >> m;
-	Graph<float> *graph = new Graph<float> (n,m);
-		float *P = new float(n); //кратчайший путь
+	Graph<typ> *graph = new Graph<typ> (n,m);
+		typ *P = new typ(n); //кратчайший путь
 		for (int i=0; i<=n;i++)
 			P[i] = 0;
 	cout << "Будем генерировать граф" << endl;
 	cout << "Введите минимальное и максимальное значение веса графа" << endl;
-	float min, max;
+	typ min, max;
 	cin >> min;
 	cin >> max;
 	graph->createGraph(min, max);
@@ -31,7 +33,7 @@ void main()
 	int a;
 	cin >> a; 
 	cout << "Применяем алгоритм.." << endl << endl;
-	float *dist = graph->deykstra(a,P);
+	typ *dist = graph->deykstra(a,P);
 
 	cout << "Ответ: " << endl << endl;	
 	

@@ -2,17 +2,18 @@
 #include "queue_bintree.h"
 #include "table.h"
 #include "queue_table.h"
-
+#include <conio.h>
 
 
 void main ()
 {
 	setlocale(LC_CTYPE, "Russian");
 	int z;
+	FILE *myfile;
 	cout << "Алгориитм Крускала" << endl;
 	cout << "Введите тип приоритетной очереди: " << endl;
 	cout << "1) d-куча" << endl;
-	cout << "2) АВЛ деревo" << endl;
+	cout << "2) Бинарное деревo" << endl;
 	cout << "3) таблица" << endl;
 	cin >> z;
 	switch (z)
@@ -30,7 +31,7 @@ void main ()
 			Graph<typ> *graph = new Graph<typ> (n,m);
 		
 			int l;
-			cout << "Будем генерировать граф (1) или вручную (2)?" << endl;
+			cout << "Будем генерировать граф (1), вручную (2) или читать с файла (3)?" << endl;
 			cin >> l;
 			switch (l)
 			{
@@ -57,17 +58,36 @@ void main ()
 				}
 				break;	
 				}
+			case 3:
+				{
+					myfile = fopen ("C:\\file.txt", "r");
+					int a = 0, b = 0 ,i = 0, tmp1 = 0, tmp2 = 0;
+					typ c = 0;
+					while (i < m)
+					{
+						fscanf (myfile, "%d%d%f\n", &a, &b, &c);
+						if ((tmp1 == a) && (tmp2 == b))
+							break;
+						tmp1 = a;
+						tmp2 = b;
+						graph->addEdge (a,b,c);
+						i++;
+					}
+					fclose(myfile);
+				}
+				break;
 			}
 	
 			system ("cls");
 		
 			cout << "Получился вот такой вот граф: " << endl<<endl;
 			graph->print();
-		
+			
 			cout << "Применяем алгоритм Крускала.." << endl;
 			Graph<typ> *res = new Graph<typ> (n,m);
 			sets<typ> *a = new sets<typ> (n);
-
+			
+			graph->sort();
 			res = a->kruskal(graph);
 			cout << endl << endl;
 			res->print();
@@ -86,7 +106,7 @@ void main ()
 			Graph<typ> *graph = new Graph<typ> (n,m);
 		
 			int l;
-			cout << "Будем генерировать граф (1) или вручную (2)?" << endl;
+			cout << "Будем генерировать граф (1), вручную (2) или читать с файла (3)?" << endl;
 			cin >> l;
 			switch (l)
 			{
@@ -113,6 +133,24 @@ void main ()
 				}
 				break;	
 				}
+			case 3:
+				{
+					myfile = fopen ("C:\\file.txt", "r");
+					int a = 0, b = 0 ,i = 0, tmp1 = 0, tmp2 = 0;
+					typ c = 0;
+					while (i < m)
+					{
+						fscanf (myfile, "%d%d%f\n", &a, &b, &c);
+						if ((tmp1 == a) && (tmp2 == b))
+							break;
+						tmp1 = a;
+						tmp2 = b;
+						graph->addEdge (a,b,c);
+						i++;
+					}
+					fclose(myfile);
+				}
+				break;
 			}
 	
 			system ("cls");
@@ -124,6 +162,7 @@ void main ()
 			Graph<typ> *res = new Graph<typ> (n,m);
 			bintree<typ> *a = new bintree<typ> ();
 
+			graph->sort();
 			res = a->kruskal(graph);
 			cout << endl << endl;
 			res->print();
@@ -142,7 +181,7 @@ void main ()
 			Graph<typ> *graph = new Graph<typ> (n,m);
 		
 			int l;
-			cout << "Будем генерировать граф (1) или вручную (2)?" << endl;
+			cout << "Будем генерировать граф (1), вручную (2) или читать с файла (3)?" << endl;
 			cin >> l;
 			switch (l)
 			{
@@ -169,6 +208,24 @@ void main ()
 				}
 				break;	
 				}
+			case 3:
+				{
+					myfile = fopen ("C:\\file.txt", "r");
+					int a = 0, b = 0 ,i = 0, tmp1 = 0, tmp2 = 0;
+					typ c = 0;
+					while (i < m)
+					{
+						fscanf (myfile, "%d%d%f\n", &a, &b, &c);
+						if ((tmp1 == a) && (tmp2 == b))
+							break;
+						tmp1 = a;
+						tmp2 = b;
+						graph->addEdge (a,b,c);
+						i++;
+					}
+					fclose(myfile);
+				}
+				break;
 			}
 	
 			system ("cls");
@@ -180,6 +237,7 @@ void main ()
 			Graph<typ> *res = new Graph<typ> (n,m);
 			SortTable<typ> *a = new SortTable<typ> (m);
 
+			graph->sort();
 			res = a->kruskal(graph);
 			cout << endl << endl;
 			res->print();

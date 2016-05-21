@@ -36,7 +36,7 @@ public:
 
 	Node<TType>* CopyTree (Node<TType> *); //копирование
 	virtual void insert (Node<TType>*&, const Node<TType> *); //вставка
-	virtual void Delete (Node<TType>*, const TType &); //удаление
+	virtual void Delete (Node<TType>*&, const TType &); //удаление
 	
 	Node<TType>* Findkey (Node<TType>*, const TType &); // поиск по ключу
 	Node<TType>* FindMax (Node<TType>*); //поиск максимума
@@ -54,7 +54,7 @@ public:
 	int getSize();
 	int getHeight(Node<TType>*); //высота дерева
 
-	Graph<TType>* kruskal (Graph<TType>*&);
+	Graph<TType>* kruskal (Graph<TType>*&); //алгоритм Крускаля
 };
 
 template <class TType>
@@ -110,38 +110,24 @@ void bintree<TType>::insert (Node<TType>* &tr, const Node<TType> *node)
 		size++;
 		return;
 	}
-	Node<TType>* x = tr;
-	Node<TType>* y = new Node<TType>;
-	while (x != NULL)
+	Node<TType>* tmp = tr;
+	Node<TType>* prev = new Node<TType>;
+	while(tmp != NULL)
 	{
- 		y = x;
-		if (x->key <= a)
-		{
-			x = x->right;			
-		}
-		else
-		{
-			x = x->left;
-		}
+		prev = tmp;
+		if	(tmp->key <= a)
+			tmp = tmp->right;
+		else 
+			tmp = tmp->left;
 	}
-	if (y->key <= a)
-	{
-		y->right = new Node<TType>;
-		y->right->key = a;
-		y->right->parent = y;
-		size++;
-	}
-	else
-	{
-		y->left = new Node<TType>;
-		y->left->key = a;
-		y->left->parent = y;
-		size++;
-	}
+	if (prev->key <= a) 
+		prev->right = new Node<TType>(a);
+	else prev->left = new Node<TType>(a);
+	size++;
 };
 
 template <class TType>
-void bintree<TType>::Delete (Node<TType>* tr, const TType &k)
+void bintree<TType>::Delete (Node<TType>*& tr, const TType &k)
 {
 	Node<TType>* x = Findkey(tr, k);
 	if (x == NULL)
@@ -149,21 +135,23 @@ void bintree<TType>::Delete (Node<TType>* tr, const TType &k)
 
 	if ((x->left == NULL) && (x->right == NULL))
 	{
-		if (x->parent->right == x)
-			x->parent->right = NULL;
-		else
-			x->parent->left = NULL;
+		delete x;
 		return;
 	};
 	if ((x->left == NULL) && (x->right != NULL))
 	{
 		Node<TType>* y = x->right;
 		y->parent = x->parent;
+		if (x->parent == NULL)
+		{			
+			tr = y;
+			return;
+		}
 		if (x->parent->right == x)
 			x->parent->right = y;
 		else
-			x->parent->left = y;
-
+			x->parent->left = y;	
+		tr = y;
 		return;
 	}
 	if ((x->left != NULL) && (x->right == NULL))
@@ -174,6 +162,7 @@ void bintree<TType>::Delete (Node<TType>* tr, const TType &k)
 			x->parent->right = y;
 		else
 			x->parent->left = y;
+		delete x;
 		return;
 	}
 	Node<TType>* y = FindMin(x->right);
@@ -203,7 +192,8 @@ template <class TType>
 Node<TType>* bintree<TType>::FindMin (Node<TType> *tr)
 {
 	if (tr == NULL)
-		return;
+		throw
+		exception("pustoe");
 	while (tr -> left != NULL)
 		tr = tr -> left;
 	return tr;
@@ -412,31 +402,33 @@ Graph<TType>* bintree<TType>::kruskal (Graph<TType>*& gr)
 	sets<TType> *set = new sets<TType>(n);
 	for (int i=0; i<n; i++)
 		set->makesets(i);
-	
-	BQueue<edge<TType>*> *queue = new BQueue<edge<TType>*>;
-	for (int i=0; i<m; i++)
-		queue->push(gr->getMinEdge(i));
 
-	edge<TType>* tmp2 = new edge<TType>(0,0,0);
-	Node<edge<TType>*>* tmp = new Node<edge<TType>*>;
-	int treeEdgeSize = 0;
+	BQueue<TType> *queue = new BQueue<TType>();
+	for (int i=0; i<m;i++)
+		queue->push(gr->getEdge(i)->weight);
+
+	int treeEdgeSize = 0; 
+	int z = 0;
+	Node<TType>* tmp = new Node<TType>;
+
 	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
 	{
 		tmp = queue->top();
 		queue->pop();
 
-		tmp2 = tmp->key;
-		int N = tmp2->o;
-		int K = tmp2->k;
-		TType weight = tmp2->weight;
-		int An = set->findsets(N);
-		int Ak = set->findsets(K);
+		int u = gr->getEdge(z)->o;
+		int v = gr->getEdge(z)->k;
+		TType weight = tmp->key;
+
+		int An = set->findsets(u);
+		int Ak = set->findsets(v);
 		if (An != Ak)
 		{
 			set->unionsets(An, Ak);
-			tree->addEdge(N, K, weight);
+			tree->addEdge(u, v, weight);
 			treeEdgeSize++;
 		}
+		z++;
 	}
 
 	return tree;

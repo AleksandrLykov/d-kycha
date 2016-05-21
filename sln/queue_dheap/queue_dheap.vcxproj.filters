@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\queue.h">
+    <ClInclude Include="..\..\include\hqueue.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>

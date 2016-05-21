@@ -1,9 +1,9 @@
 #ifndef __SETS_H__
 #define __SETS_H__
 
-#include "queue.h"
+#include "hqueue.h"
 #include "graphs.h"
-#include "d-heap.h"
+#include "d_heap.h"
 #include <stack>
 
 template <class HType>
@@ -29,6 +29,9 @@ public:
 template <class HType>
 sets<HType>::sets(int a)
 {
+	if (a < 0)
+		throw
+		exception ("a < 0");
 	parent = new int[a];
 	for (int i = 0; i < a; i++)
 		parent[i] = -1;
@@ -150,7 +153,7 @@ template <class HType>
 class DataEdge : public Prior<HType>
 {
 public:
-	DataEdge (edge<HType> *);
+	DataEdge (edge<HType>*);
 	edge<HType> *e;
 };
 
@@ -164,8 +167,7 @@ DataEdge<HType>::DataEdge (edge<HType> *a)
 
 template <class HType>
 Graph<HType>* sets<HType>::kruskal (Graph<HType>*& gr)
-{
-	
+{	
 	int n = gr->getKolvo();
 	int m = gr->getRealSize();
 	Graph<HType> *tree = new Graph<HType>(n,m);
@@ -174,28 +176,32 @@ Graph<HType>* sets<HType>::kruskal (Graph<HType>*& gr)
 	for (int i=0; i<n; i++)
 		set->makesets(i);
 
-	gr->sort();
-	Prior<HType> **data = new Prior<HType>*[m];
+	HQueue<HType> *queue = new HQueue<HType>(3);
 	for (int i=0; i<m;i++)
-		data[i] = new DataEdge<HType>(gr->getEdgesets()[i]);
+		queue->push(gr->getEdge(i)->weight);
 
-	HQueue<HType> *queue = new HQueue<HType>(data, m, 4);
-	int treeEdgeSize = 0;
+	int treeEdgeSize = 0; 
+	int z = 0;
+	Prior<HType>* tmp = 0;
+
 	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
 	{
-		Prior<HType> *tmp = queue->top();
+		tmp = queue->top();
 		queue->pop();
-		int N = ((DataEdge<HType>*)tmp)->e->o;
-		int K = ((DataEdge<HType>*)tmp)->e->k;
-		HType weight = ((DataEdge<HType>*)tmp)->e->weight;
-		int An = set->findsets(N);
-		int Ak = set->findsets(K);
+
+		int u = gr->getEdge(z)->o;
+		int v = gr->getEdge(z)->k;
+		HType weight = tmp->pr;
+
+		int An = set->findsets(u);
+		int Ak = set->findsets(v);
 		if (An != Ak)
 		{
 			set->unionsets(An, Ak);
-			tree->addEdge(N, K, weight);
+			tree->addEdge(u, v, weight);
 			treeEdgeSize++;
 		}
+		z++;
 	}
 
 	return tree;

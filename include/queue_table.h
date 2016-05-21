@@ -11,17 +11,19 @@ public:
 
 	void push(typ k, TType a);
 	void pop();
-	int isEmpty();
-	TabRecord<TType>* top();
+	TabRecord<TType>* top ();
+	int isEmpty ();
 	void print();
 	int GetSize();
-	int operator==(const BQueue<TType>&)const;
 	SortTable<TType>* getTable ();
 };
 
 template <class TType>
 TQueue<TType>::TQueue (int a)
 {
+	if (a < 0)
+		throw 
+		exception ("neverno");
 	table = new SortTable<TType>(a);
 }
 
@@ -40,6 +42,9 @@ void TQueue<TType>::push (typ k, TType a)
 template <class TType>
 void TQueue<TType>::pop()
 {
+	if (isEmpty() )
+		throw
+		exception ("neverno");
 	table->erase(table->min()->getKey() );
 }
 
@@ -52,7 +57,7 @@ TabRecord<TType>* TQueue<TType>::top ()
 template <class TType>
 int TQueue<TType>::GetSize ()
 {
-	return table->getCount();
+	return table->GetCount();
 }
 
 template <class TType>
@@ -69,3 +74,8 @@ void TQueue<TType>::print()
 	table->print();
 }
 
+template <class TType>
+SortTable<TType>* TQueue<TType>::getTable ()
+{
+	return table;
+}

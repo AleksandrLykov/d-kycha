@@ -1,4 +1,5 @@
-#include <queue.h>
+#include <hqueue.h>
+#include <ctime>
 
 void main ()
 {
@@ -7,14 +8,15 @@ void main ()
 	cout << "введите арность кучи" << endl;
 	int a;
 	cin >> a;
-	DHeap<int> *heap = new DHeap <int> (a,0);
+	DHeap<float> *heap = new DHeap <float> (a,0);
 	cout << "теперь количество" << endl;
 	int b;
 	cin >> b;
 	int c;
+	srand(time(NULL));
 	for (int i=0;i<b;i++)
 	{
-		c = 1 + rand() % 5;
+		c = 1 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(10 - 1)));
 		heap->push(c);
 	}
 	system("cls");

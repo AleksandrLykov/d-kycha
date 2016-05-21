@@ -1,5 +1,5 @@
-#ifndef __D_HEAP__H__
-#define __D_HEAP__H__
+#ifndef __DHEAP_H__
+#define __DHEAP_H__
 
 #include <cstdlib>
 #include <iostream>
@@ -30,10 +30,10 @@ class DHeap
 {
 private:
 	int d; //арность
-	Prior<HType>** keys;// массив
-	int kolvo;//количество
+	Prior<HType>** keys; // массив
+	int kolvo; //количество
 public:
-	DHeap (const int, const int);
+	DHeap (int, int);
 	DHeap (const DHeap<HType>&);
 	~DHeap ();
 
@@ -54,11 +54,7 @@ public:
 	Prior<HType>* getKey(int); // возвращает ключ
 
 	void Sort(); //Пирамидальная сортировка
-	void addsets(Prior<HType>**, int); //вставка множества
-	void push (Prior<HType>*);
 };
-
-
 
 template <class HType>
 Dist<HType>::Dist (int a, HType d)
@@ -205,17 +201,10 @@ void DHeap<HType>::push (HType a)
 		exception ("Перебор");
 
 	Prior<HType>** tmp = new Prior<HType>*[MAX_HTYPE];
-	for (int i=0;i<kolvo-1;i++)
+	for (int i=0; i<kolvo-1 ; i++)
 		tmp[i] = keys[i];
 	tmp[kolvo - 1] = tmp2;
 	keys = tmp;
-}
-
-template <class HType>
-void DHeap<HType>::push (Prior<HType>* a)
-{
-	keys[kolvo] = a;
-	kolvo++;
 }
 
 template <class HType>
@@ -261,7 +250,6 @@ void DHeap<HType>::vyvod()
 				k = kolvo;
 			else k += pow(d,i);
 	}
-
 }
 
 template <class HType>
@@ -302,20 +290,6 @@ void DHeap<HType>::Sort ()
 		tmp++;
 		tmp2--;
 	}	
-}
-
-template <class HType>
-void DHeap<HType>::addsets (Prior<HType>** a, int n)
-{
-	if (kolvo + n >= MAX_HTYPE)
-		throw
-		exception ("Перебор");
-	for (int i=kolvo; i < kolvo + n;i++)
-	{
-		keys[i] = a[i-kolvo];
-	}
-	kolvo+=n;
-	okych();
 }
 
 #endif

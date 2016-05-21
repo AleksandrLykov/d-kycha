@@ -1,7 +1,7 @@
-#ifndef __QUEUE_H__
-#define __QUEUE_H__
+#ifndef __HQUEUE_H__
+#define __HQUEUE_H__
 
-#include <d-heap.h>
+#include <d_heap.h>
 
 template <class HType>
 class HQueue
@@ -12,10 +12,8 @@ public:
 	HQueue(int);
 	~HQueue();
 	HQueue(const HQueue<HType>&);
-	HQueue(Prior<HType>**, int, int);	
 
 	void push(const HType);
-	void push(Prior<HType>*);
 	void pop();
 	int isEmpty();
 	Prior<HType>* top();
@@ -72,12 +70,7 @@ template <class HType>
 void HQueue<HType>::push(const HType a)
 {
 	heap->push(a);
-}
-
-template <class HType>
-void HQueue<HType>::push(Prior<HType> *a)
-{
-	heap->push(a);
+	heap->Sort();
 }
 
 template <class HType>
@@ -101,11 +94,4 @@ int HQueue<HType>::operator== (const HQueue<HType>& a)const
 	 return *heap == *a.heap;
 }
 
-template <class HType>
-HQueue<HType>::HQueue (Prior<HType>** a, int n, int d)
-{
-	heap = new DHeap<HType> (d, 0);
-	heap->addsets(a, n);
-}
-	
 #endif
