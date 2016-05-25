@@ -4,7 +4,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
-#include "hqueue.h"
+#include "priority_queue.h"
 #include "d_heap.h"
 
 using namespace std;

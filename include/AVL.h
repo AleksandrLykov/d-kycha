@@ -3,7 +3,7 @@
 
 #include "bintree.h"
 #include "graphs.h"
-#include "queue_bintree.h"
+#include "priority_queue.h"
 
 template <class TType>
 class AVL : public bintree<TType>

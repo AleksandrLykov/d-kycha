@@ -53,8 +53,6 @@ public:
 	int operator== (const bintree<TType>&)const;
 	int getSize();
 	int getHeight(Node<TType>*); //высота дерева
-
-	Graph<TType>* kruskal (Graph<TType>*&); //алгоритм Крускаля
 };
 
 template <class TType>
@@ -389,50 +387,7 @@ int bintree<TType>::getHeight (Node<TType> *tr)
         r = -1;
     int max = l > r ? l : r;
     return max+1;
-}
-
-
-template <class TType>
-Graph<TType>* bintree<TType>::kruskal (Graph<TType>*& gr)
-{
-	int n = gr->getKolvo();
-	int m = gr->getRealSize();
-	Graph<TType> *tree = new Graph<TType>(n,m);
-
-	sets<TType> *set = new sets<TType>(n);
-	for (int i=0; i<n; i++)
-		set->makesets(i);
-
-	BQueue<TType> *queue = new BQueue<TType>();
-	for (int i=0; i<m;i++)
-		queue->push(gr->getEdge(i)->weight);
-
-	int treeEdgeSize = 0; 
-	int z = 0;
-	Node<TType>* tmp = new Node<TType>;
-
-	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
-	{
-		tmp = queue->top();
-		queue->pop();
-
-		int u = gr->getEdge(z)->o;
-		int v = gr->getEdge(z)->k;
-		TType weight = tmp->key;
-
-		int An = set->findsets(u);
-		int Ak = set->findsets(v);
-		if (An != Ak)
-		{
-			set->unionsets(An, Ak);
-			tree->addEdge(u, v, weight);
-			treeEdgeSize++;
-		}
-		z++;
-	}
-
-	return tree;
-}
+};
 
 
 #endif

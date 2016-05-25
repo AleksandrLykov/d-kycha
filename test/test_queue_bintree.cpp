@@ -1,5 +1,5 @@
 #include <gtest.h>
-#include "queue_bintree.h"
+#include "priority_queue.h"
 
 TEST(queue_bintree, can_create_queue_bintree)
 {

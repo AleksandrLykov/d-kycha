@@ -6,16 +6,15 @@
 
 using namespace std;
 
-typedef float typ;
 
 template<class TType>
 class TabRecord {
 protected:
-	typ key; //ключ
+	int key; //ключ
 	TType data; //идентификатор
 public:
-	TabRecord (typ a, TType b) {key = a; data = b;};
-	typ getKey() {return key;};
+	TabRecord (int a, TType b) {key = a; data = b;};
+	int getKey() {return key;};
 	TType getData() {return data;};
 };
 
@@ -29,9 +28,9 @@ protected:
 public:
 	Table (int);
 
-	virtual TabRecord<TType>* search (typ) = 0; //поиск
-	virtual void insert (typ, TType) = 0; //вставка
-	virtual void erase (typ) = 0; //удаление
+	virtual TabRecord<TType>* search (int) = 0; //поиск
+	virtual void insert (int, TType) = 0; //вставка
+	virtual void erase (int) = 0; //удаление
 	int	isEmpty (); //проверка на пустоту
 	int	isFull (); //проверка на полноту
 	virtual int GetCount (); //вернуть текущее количество записей
@@ -117,7 +116,7 @@ public:
 		delete[]recs;
 	}
 
-	virtual TabRecord<TType>* search (typ k)
+	virtual TabRecord<TType>* search (int k)
 	{
 		for (int i=0; i<count; i++)
 			if (k == recs[i]->getKey() )
@@ -127,7 +126,7 @@ public:
 			}
 		return NULL;
 	};
-	virtual void insert (typ k, TType Data)
+	virtual void insert (int k, TType Data)
 	{
 		if (isFull() )
 			throw
@@ -136,7 +135,7 @@ public:
 		recs[count] = new TabRecord<TType>(k, Data);
 		count++;
 	}
-	virtual void erase(typ k)
+	virtual void erase(int k)
 	{
 		if (isEmpty () )
 			return;
@@ -189,7 +188,7 @@ public:
 		delete[]recs;
 	}
 	
-	virtual TabRecord<TType>* search (typ key)
+	virtual TabRecord<TType>* search (int key)
 	{
 		int left = 0;
 		int right = count - 1;
@@ -213,7 +212,7 @@ public:
 	}
 	return 0;
 	};
-	virtual void insert(typ k, TType Data)
+	virtual void insert(int k, TType Data)
 	{
 		if (isFull() )
 			throw
@@ -225,7 +224,7 @@ public:
 		recs[pos] = new TabRecord<TType>(k,Data);
 		count++;
 	};
-	virtual void erase(typ k)
+	virtual void erase(int k)
 	{
 		if (isEmpty() )
 			return;
@@ -242,7 +241,6 @@ public:
 
 	void sort();
 	TabRecord<TType>* min ();
-	Graph<TType>* kruskal (Graph<TType> *&);
 };
 
 template <class TType>
@@ -263,48 +261,6 @@ template <class TType>
 TabRecord<TType>* SortTable<TType>::min ()
 {
 	return recs[0];
-}
-
-template <class TType>
-Graph<TType>* SortTable<TType>::kruskal (Graph<TType>*& gr)
-{
-	int n = gr->getKolvo();
-	int m = gr->getRealSize();
-	Graph<TType> *tree = new Graph<TType>(n,m);
-
-	sets<TType> *set = new sets<TType>(n);
-	for (int i=0; i<n; i++)
-		set->makesets(i);
-
-	TQueue<TType> *queue = new TQueue<TType>(m);
-	for (int i=0; i<m;i++)
-		queue->push(gr->getEdge(i)->weight,i);
-
-	int treeEdgeSize = 0; 
-	int z = 0;
-	TabRecord<TType>* tmp = new TabRecord<TType>(0,0);
-
-	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
-	{
-		tmp = queue->top();
-		queue->pop();
-
-		int u = gr->getEdge(z)->o;
-		int v = gr->getEdge(z)->k;
-		TType weight = tmp->getKey();
-
-		int An = set->findsets(u);
-		int Ak = set->findsets(v);
-		if (An != Ak)
-		{
-			set->unionsets(An, Ak);
-			tree->addEdge(u, v, weight);
-			treeEdgeSize++;
-		}
-		z++;
-	}
-
-	return tree;
-}
+};
 
 #endif

@@ -1,7 +1,7 @@
 #ifndef __SETS_H__
 #define __SETS_H__
 
-#include "hqueue.h"
+#include "priority_queue.h"
 #include "graphs.h"
 #include "d_heap.h"
 #include <stack>
@@ -23,7 +23,6 @@ public:
 	void vyvod();
 
 	int* getsets(int);
-	Graph<HType>* kruskal(Graph<HType>*&);
 };
 
 template <class HType>
@@ -163,49 +162,5 @@ DataEdge<HType>::DataEdge (edge<HType> *a)
 	e = a;
 	pr = e->weight;
 }
-
-
-template <class HType>
-Graph<HType>* sets<HType>::kruskal (Graph<HType>*& gr)
-{	
-	int n = gr->getKolvo();
-	int m = gr->getRealSize();
-	Graph<HType> *tree = new Graph<HType>(n,m);
-
-	sets<HType> *set = new sets<HType>(n);
-	for (int i=0; i<n; i++)
-		set->makesets(i);
-
-	HQueue<HType> *queue = new HQueue<HType>(3);
-	for (int i=0; i<m;i++)
-		queue->push(gr->getEdge(i)->weight);
-
-	int treeEdgeSize = 0; 
-	int z = 0;
-	Prior<HType>* tmp = 0;
-
-	while ((treeEdgeSize < n-1) && (!queue->isEmpty()))
-	{
-		tmp = queue->top();
-		queue->pop();
-
-		int u = gr->getEdge(z)->o;
-		int v = gr->getEdge(z)->k;
-		HType weight = tmp->pr;
-
-		int An = set->findsets(u);
-		int Ak = set->findsets(v);
-		if (An != Ak)
-		{
-			set->unionsets(An, Ak);
-			tree->addEdge(u, v, weight);
-			treeEdgeSize++;
-		}
-		z++;
-	}
-
-	return tree;
-}
-
 
 #endif

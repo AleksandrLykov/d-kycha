@@ -72,8 +72,6 @@
     <ClCompile Include="..\..\test\test_graph.cpp" />
     <ClCompile Include="..\..\test\test_main.cpp" />
     <ClCompile Include="..\..\test\test_queue_bintree.cpp" />
-    <ClCompile Include="..\..\test\test_queue_heap.cpp" />
-    <ClCompile Include="..\..\test\test_queue_table.cpp" />
     <ClCompile Include="..\..\test\test_table.cpp" />
   </ItemGroup>
   <ItemGroup>
