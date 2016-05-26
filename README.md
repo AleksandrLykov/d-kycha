@@ -347,8 +347,7 @@ MINCHILD(i)
 	return node;
 }
 ```
-* Обходы:
-	* Обход в прямом порядке `workAroundForward`:
+* Обход в прямом порядке `workAroundForward`:
 ```
 ОБХОД_В_ПРЯМОМ_ПОРЯДКЕ(Node *tr)
 {
@@ -357,7 +356,7 @@ MINCHILD(i)
 	ОБХОД_В_ПРЯМОМ_ПОРЯДКЕ(tr->right);
 }
 ```
-	* Обход в обратном порядке `workAroundReverse`:
+* Обход в обратном порядке `workAroundReverse`:
 ```
 ОБХОД_В_ОБРАТНОМ_ПОРЯДКЕ(Node *tr)
 {
@@ -366,7 +365,7 @@ MINCHILD(i)
 	cout << key;
 }
 ```
-	* Симметричный обход `workAroundSymmetr`:
+* Симметричный обход `workAroundSymmetr`:
 ```
 СИММЕТРИЧНЫЙ_ОБХОД(Node *tr)
 {
@@ -375,7 +374,7 @@ MINCHILD(i)
 	СИММЕТРИЧНЫЙ_ОБХОД(tr->right);
 }
 ```
-	* Обход в ширину `workAroundAcross`:
+* Обход в ширину `workAroundAcross`:
 ```
 ОБХОД_В_ШИРИНУ()
 {
@@ -393,7 +392,7 @@ MINCHILD(i)
 	}
 }
 ```
-	* Обход в глубину `workAroundDepth`:
+* Обход в глубину `workAroundDepth`:
 ```
 ОБХОД_В_ГЛУБИНУ
 {
