@@ -1,5 +1,5 @@
 #include <conio.h>
-#include "Rkruskal.cpp"
+#include "algoritms.cpp"
 
 typedef float typ;
 

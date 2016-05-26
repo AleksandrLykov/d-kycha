@@ -4,8 +4,6 @@
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
-#include "priority_queue.h"
-#include "d_heap.h"
 
 using namespace std;
 
@@ -47,7 +45,6 @@ public:
 
 	bool visit (int, int*);
 	void sort();
-	HType* deykstra (int, HType*&);
 };
 
 template <class HType>
@@ -236,67 +233,5 @@ bool Graph<HType>::visit (int a, int* b)
 	return res;
 }
 
-template <class HType>
-HType* Graph<HType>::deykstra(int s, HType *&P)
-{
-	if ((s < 0) || (s >= n))
-		throw 
-		exception ("“акой нет");
-	
-	HType **graph = new HType*[n];
-	for (int i=0;i<n;i++)
-		graph[i] = new HType[n];
-	for (int i=0;i<n;i++)
-		for (int j=0;j<n;j++)
-			graph[i][j] = -1;
-
-	for (int i=0;i<n;i++)
-		for (int j=0;j<m;j++)
-		{
-			if ((edges[j]->o == i) || (edges[j]->k == i))
-			{
-				graph[edges[j]->o][edges[j]->k] = edges[j]->weight;
-				graph[edges[j]->k][edges[j]->o] = edges[j]->weight;
-			}
-		}
-
-	HType *dist = new HType[n]; //рассто€ние
-	int *vis = new int[n]; //массив посещенных вершин
-	for (int i=0; i<n;i++)
-		vis[i] = -1;
-	vis[0] = s;
-	int pyt;
-	int w, min;
-//////////////////////////////////////////////////////////////
-	for (int i=0; i<n; i++) 
-	{                       
-		if (graph[s][i] == -1)
-			dist[i]=MAX_HTYPE;
-			else dist[i]=graph[s][i];
-	}
-	for (int i=1; i<n-1; i++) 
-	{
-		min=MAX_HTYPE;
-		for (int k=0; k<n; k++) {
-			if (dist[k] < min && k!=s && !visit(k, vis) ) 
-			{
-				w=k;
-				min=dist[k];
-			}
-		}
-		if (min == MAX_HTYPE) break;
-		vis[i]=w;
-		for (int j=0; j < n; j++) {
-			if (!visit(j,vis) && graph[w][j] != -1 && (dist[w]+graph[w][j])<=dist[j]) 
-			{
-				P[j]=w;
-				dist[j]=dist[w]+graph[w][j];
-			}
-		}
-	}
-
-	dist[s] = 0;
-	return dist;
-}
 
 #endif

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8D402FBA-0C33-42DF-8017-55FBA2C3650C}</ProjectGuid>
+    <ProjectGuid>{1533C654-1619-4289-BEBF-404B3F664A39}</ProjectGuid>
     <RootNamespace>bintree</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

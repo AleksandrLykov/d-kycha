@@ -1,5 +1,6 @@
 #include "graphs.h"
-#include "hqueue.h"
+#include "priority_queue.h"
+#include "algoritms.cpp"
 
 typedef int typ;
 
@@ -33,7 +34,7 @@ void main()
 	int a;
 	cin >> a; 
 	cout << "Применяем алгоритм.." << endl << endl;
-	typ *dist = graph->deykstra(a,P);
+	typ *dist = Algoritm<typ>::deykstra(a,P, graph);
 
 	cout << "Ответ: " << endl << endl;	
 	

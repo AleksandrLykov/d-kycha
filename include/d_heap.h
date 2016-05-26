@@ -5,6 +5,8 @@
 #include <iostream>
 #include <cmath>
 
+#include "graphs.h"
+
 #define MAX_HTYPE 10000
 
 using namespace std;
@@ -15,6 +17,7 @@ class Prior
 public:
 	HType pr;
 };
+
 
 template <class HType>
 class Dist : public Prior<HType> //дистанция (для дейкстера)

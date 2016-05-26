@@ -1,10 +1,14 @@
 #ifndef __SETS_H__
 #define __SETS_H__
 
-#include "priority_queue.h"
-#include "graphs.h"
-#include "d_heap.h"
 #include <stack>
+#include <ctime>
+#include <cstdlib>
+#include <iostream>
+
+#include "d_heap.h"
+
+using namespace std;
 
 template <class HType>
 class sets
@@ -162,5 +166,7 @@ DataEdge<HType>::DataEdge (edge<HType> *a)
 	e = a;
 	pr = e->weight;
 }
+
+
 
 #endif

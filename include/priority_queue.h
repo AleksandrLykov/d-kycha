@@ -3,7 +3,6 @@
 
 #include "d_heap.h"
 #include "bintree.h"
-#include "AVL.h"
 #include "table.h"
 
 template <class TType>
@@ -91,7 +90,7 @@ public:
 	virtual void push(const TType a) {Node<TType> *tmp = new Node<TType>(a); tree->insert(tree->root, tmp);};
 	virtual void pop() {tree->Delete(tree->root, tree->root->key);};
 	virtual int isEmpty() {return tree->getSize() == 0;};
-	virtual TType top() {return tree->root->balance;};
+	virtual TType top() {return tree->root->key;};
 	virtual int GetSize() {return tree->getSize();};
 	int operator==(const BQueue<TType>&)const;
 };

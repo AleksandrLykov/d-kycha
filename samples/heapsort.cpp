@@ -1,4 +1,4 @@
-#include <hqueue.h>
+#include <priority_queue.h>
 #include <ctime>
 
 void main ()

@@ -2,7 +2,6 @@
 #define __TABLE_H__
 
 #include <iostream>
-#include "graphs.h"
 
 using namespace std;
 
